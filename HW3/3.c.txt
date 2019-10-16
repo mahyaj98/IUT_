@@ -1,0 +1,88 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include<set>
+using namespace std;
+
+bool find(set<int> v,int in)
+{
+	for (auto a : v)
+	{
+		if (a == in)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
+
+int main()
+{
+
+	int num;
+	cin >> num;
+	vector<vector<int > > ma;
+	for (size_t i = 0; i < num; i++)
+	{
+		vector<int> tmp;
+		int k;
+		cin >> k;
+		for (size_t j = 0; j < k; j++)
+		{
+			int tt;
+			cin >> tt;
+			tmp.push_back(tt);
+		}
+		ma.push_back(tmp);
+	}
+
+	
+	int TC;
+	cin >> TC;
+	while (TC--)
+	{
+		int source;
+		cin >> source;
+		if (ma[source].size() == 0)
+		{
+			cout << "0" << endl;
+			continue;
+		}
+		set<int> all;
+		all.insert(source);
+		vector<int> day, tmpday;
+		day.push_back(source);
+		int sss = 0;
+		int ddd = 0;
+		int smax = 0,
+			dmax = 1;
+		while (!day.empty())
+		{
+			ddd++;
+			sss = 0;
+			for (size_t i = 0; i < day.size(); i++)
+			{
+				for (size_t j = 0; j < ma[day[i]].size(); j++)
+				{
+					if (!find(all, ma[day[i]].at(j)))
+					{
+						sss++;
+						all.insert(ma[day[i]].at(j));
+						tmpday.push_back(ma[day[i]].at(j));
+					}
+				}
+			}
+			if (sss > smax)
+			{
+				smax = sss;
+				dmax = ddd;
+			}	
+			day = tmpday;
+			tmpday.clear();
+			//all.clear();
+		}
+		cout << smax << " " << dmax << endl;
+	}
+	return 0;
+}
