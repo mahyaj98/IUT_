@@ -1,0 +1,462 @@
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "firp.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "firp"
+Output Format                      : NGC
+Target Device                      : xc6slx9-3-tqg144
+
+---- Source Options
+Top Module Name                    : firp
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+---- Other Options
+Cores Search Directories           : {"ipcore_dir"  }
+
+=========================================================================
+
+
+
+==============================================
+HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 1
+ 32x16-bit single-port Read Only RAM                   : 1
+# Adders/Subtractors                                   : 4
+ 32-bit adder                                          : 1
+ 33-bit adder                                          : 1
+ 6-bit subtractor                                      : 2
+# Registers                                            : 6
+ 16-bit register                                       : 3
+ 304-bit register                                      : 1
+ 32-bit register                                       : 1
+ 33-bit register                                       : 1
+# Comparators                                          : 5
+ 32-bit comparator lessequal                           : 5
+# Multiplexers                                         : 4
+ 16-bit 19-to-1 multiplexer                            : 2
+ 16-bit 2-to-1 multiplexer                             : 1
+ 33-bit 2-to-1 multiplexer                             : 1
+
+=========================================================================
+
+
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 32-word x 16-bit                    |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <j[31]_GND_1_o_sub_31_OUT> |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to internal node          |          |
+    -----------------------------------------------------------------------
+Unit <firp> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 1
+ 32x16-bit single-port distributed Read Only RAM       : 1
+# Adders/Subtractors                                   : 3
+ 33-bit adder                                          : 1
+ 5-bit subtractor                                      : 2
+# Counters                                             : 1
+ 32-bit up counter                                     : 1
+# Registers                                            : 385
+ Flip-Flops                                            : 385
+# Comparators                                          : 5
+ 32-bit comparator lessequal                           : 5
+# Multiplexers                                         : 34
+ 1-bit 19-to-1 multiplexer                             : 32
+ 16-bit 2-to-1 multiplexer                             : 1
+ 33-bit 2-to-1 multiplexer                             : 1
+
+=========================================================================
+
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 388
+ Flip-Flops                                            : 388
+
+=========================================================================
+
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : firp.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 528
+#      GND                         : 4
+#      INV                         : 3
+#      LUT1                        : 22
+#      LUT2                        : 51
+#      LUT3                        : 3
+#      LUT4                        : 21
+#      LUT5                        : 53
+#      LUT6                        : 179
+#      MUXCY                       : 99
+#      MUXF7                       : 17
+#      VCC                         : 2
+#      XORCY                       : 74
+# FlipFlops/Latches                : 388
+#      FDCE                        : 337
+#      FDE                         : 31
+#      FDRE                        : 20
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 34
+#      IBUF                        : 18
+#      OBUF                        : 16
+# DSPs                             : 1
+#      DSP48A1                     : 1
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 6slx9tqg144-3 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:             388  out of  11440     3%  
+ Number of Slice LUTs:                  332  out of   5720     5%  
+    Number used as Logic:               332  out of   5720     5%  
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:    649
+   Number with an unused Flip Flop:     261  out of    649    40%  
+   Number with an unused LUT:           317  out of    649    48%  
+   Number of fully used LUT-FF pairs:    71  out of    649    10%  
+   Number of unique control sets:         6
+
+IO Utilization: 
+ Number of IOs:                          36
+ Number of bonded IOBs:                  35  out of    102    34%  
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRLs:                1  out of     16     6%  
+ Number of DSP48A1s:                      1  out of     16     6%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clock                              | BUFGP                  | 388   |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -3
+
+   Minimum period: 9.524ns (Maximum Frequency: 105.000MHz)
+   Minimum input arrival time before clock: 5.489ns
+   Maximum output required time after clock: 12.905ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clock'
+  Clock period: 9.524ns (frequency: 105.000MHz)
+  Total number of paths / destination ports: 498559 / 472
+-------------------------------------------------------------------------
+Delay:               9.524ns (Levels of Logic = 60)
+  Source:            a_0 (FF)
+  Destination:       final_32 (FF)
+  Source Clock:      clock rising
+  Destination Clock: clock rising
+
+  Data Path: a_0 to final_32
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              1   0.447   0.684  a_0 (a_0)
+     begin scope: 'A:a<0>'
+     begin scope: 'A/blk00000001:A<0>'
+     SEC:in->out           1   0.203   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.172   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           0   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.180   0.579  sec_inst (sec_net)
+     end scope: 'A/blk00000001:S<16>'
+     end scope: 'A:s<16>'
+     begin scope: 'M:b<16>'
+     begin scope: 'M/blk00000001:B<16>'
+     SEC:in->out           1   4.222   0.684  sec_inst (sec_net)
+     end scope: 'M/blk00000001:P<0>'
+     end scope: 'M:p<0>'
+     begin scope: 'B:a<0>'
+     begin scope: 'B/blk00000001:A<0>'
+     SEC:in->out           1   0.203   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.172   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           2   0.180   0.617  sec_inst (sec_net)
+     end scope: 'B/blk00000001:S<32>'
+     end scope: 'B:s<32>'
+     LUT5:I4->O            1   0.205   0.000  Mmux_final[32]_GND_1_o_mux_41_OUT261 (final[32]_GND_1_o_mux_41_OUT<32>)
+     FDCE:D                    0.102          final_32
+    ----------------------------------------
+    Total                      9.524ns (6.960ns logic, 2.564ns route)
+                                       (73.1% logic, 26.9% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clock'
+  Total number of paths / destination ports: 832 / 761
+-------------------------------------------------------------------------
+Offset:              5.489ns (Levels of Logic = 2)
+  Source:            start (PAD)
+  Destination:       final_0 (FF)
+  Destination Clock: clock rising
+
+  Data Path: start to final_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O           311   1.222   2.437  start_IBUF (start_IBUF)
+     LUT6:I0->O           33   0.203   1.305  _n0154_inv1 (_n0154_inv)
+     FDCE:CE                   0.322          final_0
+    ----------------------------------------
+    Total                      5.489ns (1.747ns logic, 3.742ns route)
+                                       (31.8% logic, 68.2% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clock'
+  Total number of paths / destination ports: 3028240 / 16
+-------------------------------------------------------------------------
+Offset:              12.905ns (Levels of Logic = 62)
+  Source:            a_0 (FF)
+  Destination:       output_sample2<15> (PAD)
+  Source Clock:      clock rising
+
+  Data Path: a_0 to output_sample2<15>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              1   0.447   0.684  a_0 (a_0)
+     begin scope: 'A:a<0>'
+     begin scope: 'A/blk00000001:A<0>'
+     SEC:in->out           1   0.203   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.172   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           0   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.180   0.579  sec_inst (sec_net)
+     end scope: 'A/blk00000001:S<16>'
+     end scope: 'A:s<16>'
+     begin scope: 'M:b<16>'
+     begin scope: 'M/blk00000001:B<16>'
+     SEC:in->out           1   4.222   0.684  sec_inst (sec_net)
+     end scope: 'M/blk00000001:P<0>'
+     end scope: 'M:p<0>'
+     begin scope: 'B:a<0>'
+     begin scope: 'B/blk00000001:A<0>'
+     SEC:in->out           1   0.203   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.172   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           1   0.019   0.000  sec_inst (sec_net)
+     SEC:in->out           2   0.180   0.617  sec_inst (sec_net)
+     end scope: 'B/blk00000001:S<31>'
+     end scope: 'B:s<31>'
+     LUT1:I0->O            1   0.205   0.000  Madd_tmp_cy<31>_rt (Madd_tmp_cy<31>_rt)
+     MUXCY:S->O            0   0.172   0.000  Madd_tmp_cy<31> (Madd_tmp_cy<31>)
+     XORCY:CI->O           1   0.180   0.579  Madd_tmp_xor<32> (output_sample2_15_OBUF)
+     OBUF:I->O                 2.571          output_sample2_15_OBUF (output_sample2<15>)
+    ----------------------------------------
+    Total                     12.905ns (9.762ns logic, 3.143ns route)
+                                       (75.6% logic, 24.4% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock clock
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+clock          |    9.524|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 8.00 secs
+Total CPU time to Xst completion: 7.64 secs
+ 
+--> 
+
+Total memory usage is 346732 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   33 (   0 filtered)
+Number of infos    :    1 (   0 filtered)
+
