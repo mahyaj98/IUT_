@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int main() {
+    int n , m , i = 0 , max , min , p = 0;
+    scanf("%d", &m);
+    scanf("%d", &n);
+    max = n;
+    min = m;
+    if(m > max) {
+        max = m;
+        min = n;
+    }
+    i = min;
+    if(min <= 1)
+        min = 2;
+    i = min;
+        for(;i<=max;i++){
+            for(int e = 2; e <i ; e++){
+                if(i % e == 0)
+                    p = 1;
+            }
+            if(p == 0)
+                 printf("%d\n", i);
+            p = 0;
+        }
+    return 0;
+}
