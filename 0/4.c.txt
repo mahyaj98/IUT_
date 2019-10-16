@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int main()
+{
+	int a1 = 0 , a2 = 0 , b1 = 0 , b2= 0;
+	scanf("%d%d", &a1, &a2);
+	b1 = ( a1 % 10 ) * 100 + ( (a1 / 10 ) % 10 ) * 10 + ( (a1 / 100) % 10 );
+	b2 = ( a2 % 10 ) * 100 + ( (a2 / 10 ) % 10 ) * 10 + ( (a2 / 100) % 10 );
+	if(b1 < b2){
+		printf("%d < %d", a1, a2);
+	}
+	else if(b1 > b2){
+		printf("%d < %d", a2, a1);
+	}
+	else {
+		printf("%d = %d", a1, a2);
+	}
+	return 0;
+}
