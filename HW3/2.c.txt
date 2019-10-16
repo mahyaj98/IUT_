@@ -1,0 +1,102 @@
+
+
+int commands()
+{
+	long long int p = 0, s = 1;
+	int i = 0;
+	int ch;
+	para1 = 0;
+	para2 = 0;
+	para3 = 0;
+	returnedparameter = 0;
+	do
+	{
+		ch = getchar();
+		if(ch == ' ' || ch == ';')
+		{
+			if(i == 1)
+				para1 = p * s;
+			if(i == 2)
+				para2 = p * s;
+			if(i == 3)
+				para3 = p * s;
+			i++;
+			s = 1;
+			p = 0;
+		}
+		else
+		{
+			if(i == 0)
+				command = ch;
+			else
+			{
+				if((ch >= 48 && ch <= 57) || ch == '-')
+				{
+					if(ch == '-')
+						s = -1;
+					else
+						p = p * 10 + (ch - 48);
+				}
+				else
+				{
+					if(i == 1)
+						returnedparameter = ch;
+					p = returnr(ch);
+				}
+			}
+		}
+	}
+	while(ch != ';');
+	return command;
+}
+
+int main()
+{
+	int p  = 0;
+	while(p == 0)
+	{
+		command = commands();
+		lineno++;
+		switch(command)
+		{
+		case '=':
+			returnv(para2);
+			break;
+		case '+':
+			returnv(para2 + para3);
+			break;
+		case '-':
+			returnv(para2 - para3);
+			break;
+		case '*':
+			returnv(para2 * para3);
+			break;
+		case '/':
+			if(para3 == 0){
+				printf("ERROR in %d\n", lineno);
+				p = 1;
+			}
+			else
+				returnv(para2 / para3);
+			break;
+		case '%':
+			if(para3 == 0){
+				printf("ERROR in %d\n", lineno);
+				p = 1;
+			}
+			else
+				returnv(para2 % para3);
+			break;
+		case '^':
+			returnv((long long int)pow((double)para2, (double)para3));
+			break;
+		case 'P':
+			printf("%lld\r\n", para1);
+			break;
+		case 'R':
+			p = 1;
+			break;
+		}
+	}
+	return 0;
+}

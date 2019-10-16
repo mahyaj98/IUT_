@@ -1,0 +1,58 @@
+#include <stdio.h>
+
+
+int main()
+{
+	int c1 = 0 , c2 = 0, c3 = 0, c4 = 0, s = 0, p = 0, f = 0, i = 0, sum = 0;
+	while(p != 1)
+	{
+		c1 = c2;
+		c2 = c3;
+		c3 = c4;
+		c4 = getchar();
+		switch(s)
+		{
+		case 0:
+			if(c1 == 'a' && c2 == 'b' && c3 == 'c' && c4 == 'd')
+				s = 1;
+			else if( c4 == '0')
+				p = 1;
+			break;
+		case 1:
+			if(c4 >= 48 && c4 <= 57)
+			{
+				f = c4 - 48;
+				s = 2;
+			}
+			else
+			{
+				c3 = c4;
+				s = 0;
+			}
+			break;
+		case 2:
+			if(c4 >= 48 && c4 <= 57)
+			{
+				f = f * 10 + (c4 - 48);
+				s = 3;
+				if(f)
+					i++;
+			}
+			else
+			{
+				c3 = c4;
+				s = 0;
+			}
+			break;
+		case 3:
+			f--;
+			sum += c4;
+			if(f == 0)
+				s = 0;
+			break;
+		}
+	}
+	printf("%d\n%d", i, sum);
+
+	return 0;
+}
