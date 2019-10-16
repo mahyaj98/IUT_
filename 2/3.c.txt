@@ -1,0 +1,23 @@
+#include <stdio.h>
+int main() {
+    int n;
+    float m , max , min , sum = 0;
+    scanf("%d", &n);
+    scanf("%f", &m);
+    max = m;
+    min = m;
+    sum += m;
+    for(int i = 1; i<=n - 1;){
+        scanf("%f", &m);
+        sum += m;
+        if(m >= max)
+            max = m;
+        if(m <= min)
+            min = m;
+        i++;
+    }
+    printf("Max: %.3f\n", max);
+    printf("Min: %.3f\n", min);
+    printf("Avg: %.3f", sum / n);
+    return 0;
+}
