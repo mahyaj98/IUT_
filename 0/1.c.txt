@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+int main()
+{
+	int n = 0 , i = 1;
+	scanf("%d", &n);
+	printf("W");
+	while(i <= n){
+		printf("o");
+		i++;
+	}
+	printf("w!");
+	return 0;
+}
