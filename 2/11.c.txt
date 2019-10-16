@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+void ShowFibNth(long int n, long int n2){
+	long int m;
+	printf("%ld\n", n);
+		if(n2 - n != 0){
+		ShowFibNth( n2 - n, n);
+	}
+}
+int main(){
+	 long int n , n2 , max , min;
+	scanf("%ld%ld", &n ,&n2);
+	max = n2;
+	min = n;
+	if(n > n2){
+		min = n2;
+		max = n;
+	}
+	n2 = max;
+	n = min;
+	ShowFibNth(n , n2);
+	return 0;
+}
