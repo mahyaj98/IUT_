@@ -1,0 +1,37 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string G(string str, int n)
+{
+	string A = "";
+	for (int i = 0; i < n; i++)
+	{
+		A += str;
+	}
+	return A;
+}
+
+int main()
+{
+	string str , str2;
+	cin >> str;
+	while (str != ".")
+	{
+		for (int i = 1; i <= str.size(); i++)
+		{
+			str2 = str.substr(0, i);
+			if ((str.size() % i) == 0)
+			{
+				if (G(str2, (str.size() / i)) == str)
+				{
+					cout << (str.size() / i) << endl;
+					break;
+				}
+			}
+		}
+		cin >> str;
+	}
+	return 0;
+}
