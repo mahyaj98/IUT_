@@ -1,0 +1,34 @@
+#include <stdio.h>
+int p = 0;
+void barax(){
+    char a;
+    a = getchar();
+    if(a == ' '){
+        return;
+    }
+    if(a == '\n'){
+        p = 1;
+        return;
+    }
+    else{
+        barax();
+        printf("%c", a);
+    }
+}
+
+
+int main() {
+   while(1){
+       barax();
+       if(p != 1){
+           printf(" ");
+           barax();
+       }
+       if(p == 1){
+           break;
+       }
+       printf(" ");
+   }
+
+    return 0;
+}
