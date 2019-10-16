@@ -1,0 +1,12 @@
+#include <stdio.h>
+ int main(){
+	int n , x , i = 1;
+	float sum = 1 , f = 1;
+	scanf("%d%d", &x, &n);
+	for(;i<=n - 1;i++){
+	f = f * x /i ;
+	sum =sum +f;
+	}
+	printf("%.3f", sum);
+	return 0;
+}
