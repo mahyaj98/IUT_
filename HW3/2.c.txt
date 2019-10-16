@@ -1,0 +1,131 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+class UFDS {
+public:
+	int numSets , N;
+	vector<int> p, rank, size;
+
+	UFDS(int n) {
+		N = n;
+		numSets = n;
+		size.assign(n, 1);
+		p.assign(n, 0);
+		rank.assign(n, 1);
+		for (int i = 0; i < n; i++) p[i] = i;
+	}
+
+	int findSet(int i);
+	bool isSameSet(int i, int j);
+	void unionSet(int i, int j);
+	int SetSize(int i);
+	void add()
+	{
+		(this->N)++;
+		(this->numSets)++;
+		size.push_back(1);
+		p.push_back(p.size());
+		rank.push_back(1);
+	}
+
+};
+int UFDS::findSet(int i)
+{
+	if (p[i] == i)
+	{
+		return i;
+	}
+
+	return p[i] = findSet(p[i]);
+}
+
+bool UFDS::isSameSet(int i, int j)
+{
+	return (findSet(i) == findSet(j));
+}
+void UFDS::unionSet(int i, int j)
+{
+	int x = findSet(i);
+	int y = findSet(j);
+	if (!(isSameSet(i, j)))
+	{
+		int tmp = size[x] + size[y];
+		
+		numSets--;
+		if (rank[x] > rank[y])
+		{
+			p[y] = x;
+			size[x] = tmp;
+	
+		}
+		else
+		{
+			p[x] = y;
+			size[y] = tmp;
+			if (rank[x] == rank[y])
+			{
+				rank[y]++;
+			}
+		}
+	}
+}
+
+int UFDS::SetSize(int i)
+{
+	return size[findSet(i)];
+}
+int find(vector<string> v,string in)
+{
+	for (int i = 0; i < v.size(); i++)
+	{
+		if (v[i] == in)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+int main()
+{
+	int n;
+	string str1, str2;
+	vector<string> ma;
+	int t;
+	cin >> t;
+	UFDS sets(0);
+	while (t--)
+	{
+		cin >> str1 >> str2;
+		
+		int x = find(ma,str1), y = find(ma,str2);
+		if (str1 != str2) {
+			if (x == -1)
+			{
+				ma.push_back(str1);
+				x = ma.size() - 1;
+				sets.add();
+			}
+			if (y == -1)
+			{
+				ma.push_back(str2);
+				y = ma.size() - 1;
+				sets.add();
+			}
+		}
+		else
+		{
+			if (x == -1)
+			{
+				ma.push_back(str1);
+				x = ma.size() - 1;
+				sets.add();
+				y = x;
+			}
+		}
+		sets.unionSet(x, y);
+			cout << sets.SetSize(sets.findSet(y)) << endl;
+	}
+	return 0;
+}
