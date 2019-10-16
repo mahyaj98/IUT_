@@ -1,0 +1,22 @@
+#include <stdio.h>
+
+long long f(long long n , long long m){
+	if(m == 0){
+		return n;
+	}
+	else{
+		f(m , n % m);
+	}
+}
+int main(){
+	long long m , n , max , min;
+	scanf("%lld%lld", &n, &m);
+	max = m;
+	min = n;
+	if( n > m){
+		max = n;
+		min = m;
+	}
+	printf("%lld", f(max , min));
+	return 0;
+}
