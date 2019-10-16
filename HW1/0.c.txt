@@ -1,0 +1,40 @@
+#include <iostream>
+#include <string>
+#include <map>
+using namespace std;
+
+int main()
+{
+	string str;
+
+	map<char, int> rp;
+	rp['H'] = 0; rp['I'] = 0; rp['W'] = 0; rp['E'] = 0; rp['Y'] = 0; rp['O'] = 0; rp['U'] = 0; rp['A'] = 0;
+	rp['B'] = 1; rp['F'] = 1; rp['P'] = 1; rp['V'] = 1;
+	rp['C'] = 2; rp['G'] = 2; rp['J'] = 2; rp['K'] = 2; rp['Q'] = 2; rp['S'] = 2; rp['X'] = 2; rp['Z'] = 2;
+	rp['D'] = 3; rp['T'] = 3;
+	rp['L'] = 4;
+	rp['N'] = 5; rp['M'] = 5;
+	rp['R'] = 6;
+
+	while (cin >> str)
+	{
+		int i = 0;
+		for (; i < str.size(); i++)
+		{
+			if (rp[str[i]] != 0)
+			{
+				cout << rp[str[i]];
+				break;
+			}
+		}
+		for (int j = i + 1; j < str.size(); j++)
+		{
+			if (rp[str[j]] != rp[str[j - 1]] && rp[str[j]] != 0)
+			{
+				cout << rp[str[j]];
+			}
+		}
+		cout << endl;
+	}
+	return 0;
+}
