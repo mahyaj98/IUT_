@@ -1,0 +1,276 @@
+#include<stdio.h>
+int main()
+{
+	int frsnum[1000] = {};
+	int	scnum[1000] ={};
+	int	sum[1000] ={};
+	int	first , second , t = 0, x = 0, signfrs = 1, signsc = 1;
+	scanf("%d", &first);
+	getchar();
+	if (first > 0)
+	{
+		frsnum[0] = getchar();
+		if (frsnum[0] == 45)
+		{
+			signfrs = -1;
+			for (int i = 0; i < first; i++)
+			{
+				scanf("%c", &frsnum[i]);
+				frsnum[i] -= 48;
+			}
+		}
+		else 
+		{
+			frsnum[0] -= 48;
+			for (int i = 1; i < first; i++) 
+			{
+				scanf("%c", &frsnum[i]);
+				frsnum[i] -= 48;
+			}
+		}
+	}
+	scanf("%d", &second);
+	getchar();
+	if (second > 0)
+	{
+		scnum[0] = getchar();
+		if (scnum[0] == 45)
+		{
+			signsc = -1;
+			for (int i = 0; i < second; i++)
+			{
+				scanf("%c", &scnum[i]);
+				scnum[i] -= 48;
+			}
+		}
+		else
+		{
+			scnum[0] -= 48;
+			for (int i = 1; i < second; i++)
+			{
+				scanf("%c", &scnum[i]);
+				scnum[i] -= 48;
+			}
+		}
+	}
+	if (first > second) 
+	{
+		if (signfrs*signsc == 1)
+		{
+			for (int i = 0; i < first; i++)
+			{
+				if (second - i > 0)
+				{
+						sum[i] = frsnum[first - i - 1] + scnum[second - i - 1] + t;
+				}
+				else
+				{
+					sum[i] = frsnum[first - i - 1] + t;
+				}
+				if (sum[i] > 9) 
+				{
+					sum[i] -= 10;
+					t = 1;
+				}
+				else 
+				{
+						t = 0;
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < first; i++)
+			{
+				if (second - i > 0)
+				{
+					sum[i] = frsnum[first - i - 1] - scnum[second - i - 1] + t;
+				}
+				else
+				{
+					sum[i] = frsnum[first - i - 1] + t;
+				}
+				if (sum[i] < 0) 
+				{
+					sum[i] += 10;
+					t = -1;
+				}
+				else
+				{
+						t = 0;
+				}
+			}
+		}
+		if (signfrs == -1)
+		{
+				printf("-");
+		}
+		if (t == 1)
+		{
+				printf("1");
+		}
+		for (int i = first - 1; i >= 0; i--) 
+		{
+			printf("%d", sum[i]);
+		}
+	}
+	else if (second > first) 
+	{
+		if (signfrs*signsc == 1) 
+		{
+			for (int i = 0; i < second; i++) 
+			{
+				if (first - i > 0)
+				{
+						sum[i] = scnum[second - i - 1] + frsnum[first - i - 1] + t;
+				}
+				else 
+				{
+					sum[i] = scnum[second - i - 1] + t;
+				}
+				if (sum[i] > 9) {
+					sum[i] -= 10;
+					t = 1;
+				}
+				else t = 0;
+			}
+		}
+		else {
+			for (int i = 0; i < second; i++) {
+				if (first - i > 0)
+				{
+					sum[i] = scnum[second - i - 1] - frsnum[first - i - 1] + t;
+				}
+				else
+				{
+					sum[i] = scnum[second - i - 1] + t;
+				}
+				if (sum[i] < 0)
+				{
+					sum[i] += 10;
+					t = -1;
+				}
+				else 
+				{
+						t = 0;
+				}
+			}
+		}
+		if (signsc == -1)
+		{
+				printf("-");
+		}
+		if (t == 1)
+		{
+			printf("1");
+		}
+		for (int i = second - 1; i >= 0; i--)
+		{
+			printf("%d", sum[i]);
+		}
+	}
+	else
+	{
+		if (signfrs*signsc == 1)
+		{
+			for (int i = 0; i < first; i++) 
+			{
+				if (first - i > 0)
+				{
+						sum[i] = frsnum[first - i - 1] + scnum[second - i - 1] + t;
+				}
+				else
+				{
+						sum[i] = frsnum[first - i - 1] + t;
+				}
+				if (sum[i] > 9)
+				{
+					sum[i] -= 10;
+					t = 1;
+				}
+				else 
+				{
+						t = 0;
+				}
+			}
+			if (signfrs == -1 && signsc == -1)
+			{
+					printf("-");
+			}
+			if (t == 1) 
+			{
+					printf("1");
+			}
+			for (int i = first-1; i >= 0; i--)
+			{
+				printf("%d", sum[i]);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < first; i++)
+			{
+				if (frsnum[i] > scnum[i]) 
+				{
+					for (int i = 0; i < first; i++) 
+					{
+						sum[i] = frsnum[first - i - 1] - scnum[second - i - 1] + t;
+						if (sum[i] < 0) 
+						{
+							sum[i] += 10;
+							t = -1;
+						}
+						else
+						{
+								t = 0;
+						}
+					}
+					if (signfrs == -1)
+					{
+							printf("-");
+					}
+					for (int i = first - 1; i >= 0; i--)
+					{
+						printf("%d", sum[i]);
+					}
+					x = 1;
+					break;
+				}
+				if (frsnum[i] < scnum[i])
+				{
+					for (int i = 0; i < first; i++) 
+					{
+						sum[i] = - frsnum[first - i - 1] + scnum[second - i - 1] + t;
+						if (sum[i] < 0)
+						{
+							sum[i] += 10;
+							t = -1;
+						}
+						else
+					    {
+							 t = 0;
+						}
+					}
+					if (signsc == -1)
+				    {
+					printf("-");
+					}
+					for (int i = first - 1; i >= 0; i--)
+					{
+						printf("%d", sum[i]);
+					}
+					x = 1;
+					break;
+				}
+			}
+			if (x == 0)
+			{
+					printf("0");
+			}
+		}
+		
+	}
+
+	
+	return 0;
+}
