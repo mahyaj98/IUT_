@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <math.h>
+
+double f(double a , double b , double c){
+
+    return a * ( sin (b) ) + a * ( cos (c));
+}
+double g ( double a , double b){
+
+    if(fabs(b) <= 1)
+        return b;
+    else
+        return a * ( log ( fabs(b)));
+}
+double m ( double a, double b, double c){
+
+    if ( fabs(a) <= 1 || fabs(b) <= 1)
+        return c;
+    else
+        return log(fabs(a) + fabs(b));
+}
+
+double h (double a , double b){
+    return b / (1 + exp (-fabs(a)));
+}
+double r(double d){
+    double a , b , f;
+    a  = ceil(d);
+    b = floor (d);
+    if (fabs(d - a) < fabs( d - b))
+        f = a;
+    else
+        f = b;
+    if(f == -0)
+        return 0;
+    else
+        return f;
+}
+
+void A(double* x , double* y , double*z,double*w){
+    double xa , ya , za;
+    xa = f(*x , *y , *z);
+    ya = f(*y , *x , *z);
+    za = f(*z , *x , *y) + *w;
+    *x = xa;
+    *y = ya;
+    *z = za;
+}
+void B(double*x,double*y,double*v){
+    static double u = 0;
+    double xb , yb , ub , vb;
+    xb = g(u , *x);
+    yb = g(u , *y);
+    ub = m(*x , *y , u);
+    vb = *x * *y * u;
+    *x = xb;
+    *y = yb;
+    u = ub;
+    *v = vb;
+}
+void C(double *x,double *y,double *z,double *v,double *w){
+    double xc , yc , zc;
+    xc = r(h(*v , *x));
+    yc = r(h(*v , *y));
+    zc = r(h(*v , *z));
+    *x = xc;
+    *y = yc;
+    *z = zc;
+    *w = zc;
+}
+int main (){
+    double x , y , z , v , w = 0;
+    int n;
+    scanf("%d", &n);
+    double *ptrx = &x;
+    double *ptry = &y;
+    double *ptrz = &z;
+    double *ptrv = &v;
+    double *ptrw = &w;
+    for(int i = 1 ; i <=n ; i++){
+        scanf("%lf%lf%lf", &x , &y , &z);
+        A(ptrx , ptry ,ptrz ,ptrw);
+        B(ptrx, ptry, ptrv);
+        C(ptrx , ptry ,ptrz , ptrv , ptrw);
+        printf("%.0lf %.0lf %.0lf\n", x , y , z);
+    }
+}
