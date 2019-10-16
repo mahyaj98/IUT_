@@ -1,0 +1,60 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+
+bool f(string s, string b)
+{
+	if (b.substr(0, s.length()) == s)
+	{
+		return true;
+	}
+	return false;
+}
+bool ff(vector<pair<int, int>> sizes , vector<string> v)
+{
+	for (int j = 0; j < sizes.size(); j++)
+	{
+		for (int k = j+1; k < sizes.size(); k++)
+		{
+			if (f(v[sizes[j].second], v[sizes[k].second]))
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+int main()
+{
+	vector<pair<int, int>> sizes;
+	vector<string> v;
+	int T, n;
+	string str;
+	cin >> T;
+	for (int i = 0; i < T; i++)
+	{
+		cin >> n;
+		for (int j = 0; j < n; j++)
+		{
+			cin >> str;
+			v.push_back(str);
+			sizes.push_back(make_pair(str.length(), j));
+		}
+		sort(sizes.begin(),sizes.end());
+		if (ff(sizes , v))
+		{
+			cout << "YES" << endl;
+		}
+		else
+		{
+			cout << "NO" << endl;
+		}
+		v.clear();
+		sizes.clear();
+	}
+	return 0;
+}
