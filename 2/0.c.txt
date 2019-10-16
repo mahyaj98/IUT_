@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main() {
+    int n , m , i = 0 , max;
+    scanf("%d", &n);
+    scanf("%d", &m);
+            max = m;
+    for(;n >1;n--){
+        scanf("%d", &m);
+        if(m > max)
+            max = m;
+    }
+    printf("%d", max);
+    return 0;
+}
