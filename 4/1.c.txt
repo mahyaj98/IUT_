@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+int i = 0;
+char arr[100];
+char x;
+char * f(char** input){
+    char *token;
+    int j=0;
+    for (j=0; j<i; j++){
+        if (arr[j]==x)
+            *input = &arr[j];
+    }
+    token = (char*)malloc(j+1);
+    memcpy (arr, token, j);
+    *(token +1)='\0';
+    return token;
+}
+
+int main ()
+{
+
+    char c;
+    while(1)
+    {
+        c=(char)getchar();
+        if(c=='\n')
+            break;
+        arr[i]=c;
+        i++;
+
+    }
+    scanf ("%c",&x);
+    arr[i]='\0';
+    char *input, *token;
+    token = f(&input);
+
+}

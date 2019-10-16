@@ -1,0 +1,47 @@
+#include <stdio.h>
+int f(char a[],char b[]){
+    int i=0;
+
+    while(1)
+    {
+        if(a[i]=='\0'&& b[i]=='\0')
+            return 0;
+        if(a[i]>b[i])
+            return 1;
+        if(a[i]<b[i])
+            return -1;
+        i++;
+    }
+}
+int main ()
+{
+    char a[101];
+    char b[101];
+    int i = 0;
+    char c;
+
+    while(1)
+    {
+        c=(char)getchar();
+        if(c=='\n')
+        break;
+        a[i]=c;
+        i++;
+
+    }
+    a[i]='\0';
+    i = 0;
+    while(1)
+    {
+        c=getchar();
+        if(c=='\n')
+        break;
+        b[i]=c;
+        i++;
+
+    }
+        b[i]='\0';
+
+    printf("%d",f(a,b));
+
+}
