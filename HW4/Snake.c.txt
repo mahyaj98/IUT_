@@ -1,0 +1,327 @@
+
+
+#include <mega32.h>
+#include <stdio.h>
+// Alphanumeric LCD functions
+#include <alcd.h>
+void Init();
+void move(char);
+char read_key();
+void hand_up();
+char done = 0;
+char prev=1;
+char x[6]={2,2,2,2,2,2};
+char y[6]={2,4,8,16,32,64};
+int t0=0,tf=0;
+int thresh = 5000;
+char i,j;
+char tmpx=0 , tmpy=1;
+interrupt [TIM0_OVF] void timer0_ovf_isr(void)
+{
+    TCNT0=-200;
+    t0++;
+    tf++;
+    if(tf==1){
+        //refresh
+        PORTD=0xFF;
+        tmpx =0;
+       for(i = 0;i<6;i++){
+           if(y[i]==tmpy)
+           {
+                if(x[i]!=tmpx){
+                    tmpx+=x[i];
+                }
+           } 
+       
+       }
+       PORTD=tmpy^0xFF;
+       PORTC=tmpx;
+       if(tmpy==128){tmpy=1;}
+       else{tmpy*=2;}
+       tf = 0; 
+    }
+    if(t0==thresh){
+        move(prev);
+        t0=0;
+    
+    } 
+    
+}
+void main()
+{   
+    char tmp;
+    int turns = 0;
+    unsigned char c[10]; 
+    Init();
+    TCNT0=-200;
+    
+    while(1){
+        if(!done){
+            tmp = read_key();
+            if(tmp!=100){ 
+                hand_up();
+                if(tmp == 4){
+                    if(thresh>100){
+                        lcd_putchar('t');
+                        thresh/=5;
+                        t0=0;
+                        snprintf (c, sizeof(c), " : %d",thresh);
+                        lcd_puts(c);
+
+                    }
+                }else{
+                    turns++;
+                    prev = tmp;
+                    move(prev);
+                }     
+            }
+        }
+        else{
+            TCCR0=0;
+            PORTD=0xFF;
+            snprintf (c, sizeof(c), "%d",turns);
+            lcd_puts(c);
+            lcd_clear(); 
+        }
+    }
+
+}
+char read_key(){
+    PORTA.4=0;
+    PORTA.5=1;
+    PORTA.6=1;
+    PORTA.7=1;
+    if(PINA.0==0){
+        return (0);
+    }
+    if(PINA.3==0){
+        return (4);
+    }
+    PORTA.4=1;
+    PORTA.5=0;
+    PORTA.6=1;
+    PORTA.7=1;
+    if(PINA.0==0){
+        return (1);
+    }
+    PORTA.4=1;
+    PORTA.5=1;
+    PORTA.6=0;
+    PORTA.7=1;
+    if(PINA.0==0){
+        return (2);
+    }
+    PORTA.4=1;
+    PORTA.5=1;
+    PORTA.6=1;
+    PORTA.7=0;
+    if(PINA.0==0){
+        return (3);
+    }
+    return (100);
+}
+void hand_up()
+{
+    while(read_key()!=100){}
+    while(read_key()!=100){}
+}
+void move(char d){
+    x[5]=x[4];
+    x[4]=x[3];
+    x[3]=x[2];
+    x[2]=x[1];
+    x[1]=x[0];
+    y[5]=y[4];
+    y[4]=y[3];
+    y[3]=y[2];
+    y[2]=y[1];
+    y[1]=y[0];
+    if(d==0)
+    {
+        if(y[0]==128){
+            done = 1;
+            return;   
+        }
+        for(j = 1 ; j < 6;j++){
+            if(x[0]==x[j] && y[0]*2==y[j])
+            {
+                done = 1;
+                return;
+            }
+        }
+        y[0]*=2;
+        return;
+    }
+    if(d==1)
+    {
+        if(y[0]==1){
+            done = 1;
+            return;   
+        }
+        for(j = 1 ; j < 6;j++){
+            if(x[0]==x[j] && y[0]/2==y[j])
+            {
+                done = 1;
+                return;
+            }
+        }
+        y[0]/=2;
+        return;
+    }if(d==2)
+    {
+        if(x[0]==128){
+            done = 1;
+            return;   
+        }
+        for(j = 1 ; j < 6;j++){
+            if(x[0]*2==x[j] && y[0]==y[j])
+            {
+                done = 1;
+                return;
+            }
+        }
+        x[0]*=2;
+        return;
+    }if(d==3)
+    {
+        if(x[0]==1){
+            done = 1;
+            return;   
+        }
+        for(j = 1 ; j < 6;j++){
+            if(x[0]/2==x[j] && y[0]==y[j])
+            {
+                done = 1;
+                return;
+            }
+        }
+        x[0]/=2;
+        return;
+    }
+        
+}
+void Init(void)
+{
+// Declare your local variables here
+
+// Input/Output Ports initialization
+// Port A initialization
+// Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=In Bit2=In Bit1=In Bit0=In 
+DDRA=(1<<DDA7) | (1<<DDA6) | (1<<DDA5) | (1<<DDA4) | (0<<DDA3) | (0<<DDA2) | (0<<DDA1) | (0<<DDA0);
+// State: Bit7=0 Bit6=0 Bit5=0 Bit4=0 Bit3=P Bit2=P Bit1=P Bit0=P 
+PORTA=(0<<PORTA7) | (0<<PORTA6) | (0<<PORTA5) | (0<<PORTA4) | (1<<PORTA3) | (1<<PORTA2) | (1<<PORTA1) | (1<<PORTA0);
+
+// Port B initialization
+// Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out 
+DDRB=(1<<DDB7) | (1<<DDB6) | (1<<DDB5) | (1<<DDB4) | (1<<DDB3) | (1<<DDB2) | (1<<DDB1) | (1<<DDB0);
+// State: Bit7=0 Bit6=0 Bit5=0 Bit4=0 Bit3=0 Bit2=0 Bit1=0 Bit0=0 
+PORTB=(0<<PORTB7) | (0<<PORTB6) | (0<<PORTB5) | (0<<PORTB4) | (0<<PORTB3) | (0<<PORTB2) | (0<<PORTB1) | (0<<PORTB0);
+
+// Port C initialization
+// Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out 
+DDRC=(1<<DDC7) | (1<<DDC6) | (1<<DDC5) | (1<<DDC4) | (1<<DDC3) | (1<<DDC2) | (1<<DDC1) | (1<<DDC0);
+// State: Bit7=0 Bit6=0 Bit5=0 Bit4=0 Bit3=0 Bit2=0 Bit1=0 Bit0=0 
+PORTC=(0<<PORTC7) | (0<<PORTC6) | (0<<PORTC5) | (0<<PORTC4) | (0<<PORTC3) | (0<<PORTC2) | (0<<PORTC1) | (0<<PORTC0);
+
+// Port D initialization
+// Function: Bit7=Out Bit6=Out Bit5=Out Bit4=Out Bit3=Out Bit2=Out Bit1=Out Bit0=Out 
+DDRD=(1<<DDD7) | (1<<DDD6) | (1<<DDD5) | (1<<DDD4) | (1<<DDD3) | (1<<DDD2) | (1<<DDD1) | (1<<DDD0);
+// State: Bit7=0 Bit6=0 Bit5=0 Bit4=0 Bit3=0 Bit2=0 Bit1=0 Bit0=0 
+PORTD=(0<<PORTD7) | (0<<PORTD6) | (0<<PORTD5) | (0<<PORTD4) | (0<<PORTD3) | (0<<PORTD2) | (0<<PORTD1) | (0<<PORTD0);
+
+// Timer/Counter 0 initialization
+// Clock source: System Clock
+// Clock value: 1000.000 kHz
+// Mode: Normal top=0xFF
+// OC0 output: Disconnected
+// Timer Period: 0.256 ms
+TCCR0=(0<<WGM00) | (0<<COM01) | (0<<COM00) | (0<<WGM01) | (0<<CS02) | (1<<CS01) | (0<<CS00);
+TCNT0=0x00;
+OCR0=0x00;
+
+// Timer/Counter 1 initialization
+// Clock source: System Clock
+// Clock value: Timer1 Stopped
+// Mode: Normal top=0xFFFF
+// OC1A output: Disconnected
+// OC1B output: Disconnected
+// Noise Canceler: Off
+// Input Capture on Falling Edge
+// Timer1 Overflow Interrupt: Off
+// Input Capture Interrupt: Off
+// Compare A Match Interrupt: Off
+// Compare B Match Interrupt: Off
+TCCR1A=(0<<COM1A1) | (0<<COM1A0) | (0<<COM1B1) | (0<<COM1B0) | (0<<WGM11) | (0<<WGM10);
+TCCR1B=(0<<ICNC1) | (0<<ICES1) | (0<<WGM13) | (0<<WGM12) | (0<<CS12) | (0<<CS11) | (0<<CS10);
+TCNT1H=0x00;
+TCNT1L=0x00;
+ICR1H=0x00;
+ICR1L=0x00;
+OCR1AH=0x00;
+OCR1AL=0x00;
+OCR1BH=0x00;
+OCR1BL=0x00;
+
+// Timer/Counter 2 initialization
+// Clock source: System Clock
+// Clock value: Timer2 Stopped
+// Mode: Normal top=0xFF
+// OC2 output: Disconnected
+ASSR=0<<AS2;
+TCCR2=(0<<PWM2) | (0<<COM21) | (0<<COM20) | (0<<CTC2) | (0<<CS22) | (0<<CS21) | (0<<CS20);
+TCNT2=0x00;
+OCR2=0x00;
+
+// Timer(s)/Counter(s) Interrupt(s) initialization
+TIMSK=(0<<OCIE2) | (0<<TOIE2) | (0<<TICIE1) | (0<<OCIE1A) | (0<<OCIE1B) | (0<<TOIE1) | (0<<OCIE0) | (1<<TOIE0);
+
+// External Interrupt(s) initialization
+// INT0: Off
+// INT1: Off
+// INT2: Off
+MCUCR=(0<<ISC11) | (0<<ISC10) | (0<<ISC01) | (0<<ISC00);
+MCUCSR=(0<<ISC2);
+
+// USART initialization
+// USART disabled
+UCSRB=(0<<RXCIE) | (0<<TXCIE) | (0<<UDRIE) | (0<<RXEN) | (0<<TXEN) | (0<<UCSZ2) | (0<<RXB8) | (0<<TXB8);
+
+// Analog Comparator initialization
+// Analog Comparator: Off
+// The Analog Comparator's positive input is
+// connected to the AIN0 pin
+// The Analog Comparator's negative input is
+// connected to the AIN1 pin
+ACSR=(1<<ACD) | (0<<ACBG) | (0<<ACO) | (0<<ACI) | (0<<ACIE) | (0<<ACIC) | (0<<ACIS1) | (0<<ACIS0);
+SFIOR=(0<<ACME);
+
+// ADC initialization
+// ADC disabled
+ADCSRA=(0<<ADEN) | (0<<ADSC) | (0<<ADATE) | (0<<ADIF) | (0<<ADIE) | (0<<ADPS2) | (0<<ADPS1) | (0<<ADPS0);
+
+// SPI initialization
+// SPI disabled
+SPCR=(0<<SPIE) | (0<<SPE) | (0<<DORD) | (0<<MSTR) | (0<<CPOL) | (0<<CPHA) | (0<<SPR1) | (0<<SPR0);
+
+// TWI initialization
+// TWI disabled
+TWCR=(0<<TWEA) | (0<<TWSTA) | (0<<TWSTO) | (0<<TWEN) | (0<<TWIE);
+
+// Alphanumeric LCD initialization
+// Connections are specified in the
+// Project|Configure|C Compiler|Libraries|Alphanumeric LCD menu:
+// RS - PORTB Bit 0
+// RD - PORTB Bit 1
+// EN - PORTB Bit 2
+// D4 - PORTB Bit 4
+// D5 - PORTB Bit 5
+// D6 - PORTB Bit 6
+// D7 - PORTB Bit 7
+// Characters/line: 16
+lcd_init(16);
+
+// Global enable interrupts
+#asm("sei")
+
+
+}
