@@ -1,0 +1,108 @@
+#include <iostream>
+#include <list>
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <deque>
+using namespace std;
+
+int T, tmp, c;
+deque<pair<int , deque<int>>> Main;
+vector<int>* V;
+
+int getIndice(int in)
+{
+	for (int i = 0; i < T; i++)
+	{
+		if (find(V[i].begin(), V[i].end(), in) != V[i].end())
+		{
+			return i;
+		}
+	}
+}
+
+bool Add(int indice , int in)
+{
+	
+	for (int i = 0 ; i < Main.size();i++)
+	{
+		if (Main[i].first == indice)
+		{
+			Main[i].second.push_back(in);
+			return true;
+		}
+	}
+	return false;
+}
+void ENQUEUE(int in)
+{
+	int indice = getIndice(in);
+	if (!(Add(indice, in)))
+	{
+		deque<int> tmp;
+		tmp.push_back(in);
+		Main.push_back(make_pair(indice, tmp));
+	}
+	return;
+}
+int DEQUEUE()
+{
+	if (Main.size() == 0)
+		return 0;
+	cout << Main[0].second[0];
+	Main[0].second.pop_front();
+	if (Main[0].second.size() == 0)
+	{
+		Main.pop_front();
+	}
+	return 1;
+}
+int main()
+{
+	int t = 1, size = 0;
+	string str;
+	cin >> T;
+	while (T!=0)
+	{
+		cout << "Scenario #" << t << endl;
+		V = new vector<int>[T];
+		for(int i = 0; i<T ; i++)
+		{
+			cin >> tmp;
+			V[i].resize(tmp);
+			for (int j = 0; j < V[i].size(); j++)
+			{
+				cin >> V[i].at(j);
+
+			}
+		}
+		while (true)
+		{
+			cin >> str;
+			if (str == "STOP")
+			{
+				//cout << endl;
+				Main.clear();
+				break;
+			}
+			else
+			{
+				if (str == "DEQUEUE")
+				{
+
+					DEQUEUE();
+					cout << endl;
+				}
+				else
+				{
+					int tt;
+					cin >> tt;
+					ENQUEUE(tt);
+				}
+			}
+		}
+		t++;
+		cin >> T;
+	}
+	return 0;
+}

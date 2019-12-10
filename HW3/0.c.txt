@@ -1,0 +1,52 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+class UFDS {
+public:
+	int numSets;
+	vector<int> p, rank;
+
+	UFDS(int n) {
+		p.assign(n, 0);
+		rank.assign(n, 1);
+		for (int i = 0; i < n; i++) p[i] = i;
+	}
+
+	int findSet(int i);
+	bool isSameSet(int i, int j);
+	void unionSet(int i, int j);
+};
+int UFDS::findSet(int i)
+{
+	if (p[i] == i)
+	{
+		return i;
+	}
+
+	return p[i] = findSet(p[i]);
+}
+bool UFDS::isSameSet(int i, int j)
+{
+	int x = findSet(i);
+	int y = findSet(j);
+	return x == y;
+}
+void UFDS::unionSet(int i, int j)
+{
+	if (!(isSameSet(i, j)))
+	{
+		if (rank[findSet(i)] > rank[findSet(j)])
+		{
+			p[findSet(j)] = findSet(i);
+		}
+		else
+		{
+			p[findSet(i)] = findSet(j);
+		}
+	}
+}
+
+int main()
+{
+
+}

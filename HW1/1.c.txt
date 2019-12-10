@@ -1,0 +1,95 @@
+
+#include <iostream>
+#include <set>
+#include<algorithm>
+using namespace std;
+
+typedef pair<int, int> pi;
+typedef pair<int, pi> pii;
+set<int> s[3];
+void f(set<int> r)
+{
+	for (auto a : r)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			auto iter = s[i].find(a);
+			if (iter != s[i].end())
+			{
+				s[i].erase(iter);
+			}
+		}
+	}
+}
+set<int> ff()
+{
+	int a[] = { 0,1,2 };
+	set<int> r, tmp;
+	
+	do
+	{
+		for (auto b : s[a[0]])
+		{
+			tmp.insert(s[a[1]].begin(), s[a[1]].end());
+			tmp.insert(s[a[2]].begin(), s[a[2]].end());
+			if (tmp.find(b) != tmp.end())
+			{
+				r.insert(b);
+			}
+		}
+		tmp.erase(tmp.begin(), tmp.end());
+	} while (next_permutation(a, a + 3));
+	return r;
+}
+void fff()
+{
+	int max = s[0].size();
+	for (int i = 1; i < 3; i++)
+	{
+		if (s[i].size() > max)
+		{
+			max = s[i].size();
+		}
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		if (s[i].size() == max)
+		{
+			cout << i + 1 << " " << s[i].size();
+			for (auto p : s[i])
+			{
+				cout << " " << p;
+			}
+			cout << endl;
+		}
+	}
+}
+int main()
+{
+	int T, tmp ,n;
+	cin >> T;
+	for (int i = 1; i <= T; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			cin >> tmp;
+			n = tmp;
+			for (int k = 0; k < n; k++)
+			{
+				cin >> tmp;
+				s[j].insert(tmp);
+			}
+		}
+		f(ff());
+		cout << "Case #" << i << ":" << endl;
+		fff();
+		for (int f = 0; f < 3; f++)
+		{
+		
+			s[f].erase(s[f].begin(), s[f].end());
+
+		}
+	}
+	return 0;
+}

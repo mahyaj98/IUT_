@@ -1,0 +1,41 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+bool f(string a)
+{
+	string rev = a;
+	reverse(rev.begin(), rev.end());
+	return (a == rev);
+}
+
+int main()
+{
+	string str;
+	while (cin >> str)
+	{
+		if (f(str))
+		{
+			cout << str << endl;
+		}
+		else
+		{
+			for (int i = 1; i < str.size(); i++)
+			{
+				string strr = "";
+				for (int j = 0; j < i; j++)
+				{
+					strr += str[j];
+				}
+				reverse(strr.begin(), strr.end());
+				if (f(str + strr))
+				{
+					cout << str << strr << endl;
+					break;
+				}
+			}
+		}
+	}
+	return 0;
+}

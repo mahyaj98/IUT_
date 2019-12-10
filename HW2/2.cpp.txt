@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+using namespace std;
+
+int main() {
+	int n, tmp;
+	vector<int> v;
+
+	while (true) 
+	{
+		cin >> n;
+		if (n == 0) 
+		{
+			break; 
+		}
+
+		while (true)
+		{
+			cin >> tmp;
+
+			if (tmp == 0)
+			{
+				cout << endl;
+				break;
+			}
+			for (int i = 1; i < n; i++) 
+			{
+				v.push_back(tmp);
+				cin >> tmp;
+			}
+			v.push_back(tmp);
+			int c = 1, index = 0;
+			stack<int> box;
+			while (c <= n)
+			{
+				box.push(c);
+				while (!(box.empty()) && (box.top() == v[index]))
+				{
+					box.pop();
+					index++;
+					if (index >= n)
+					{
+						break;
+					}
+				}
+				c++;
+			}
+
+			if (box.empty())
+			{
+				cout << "Yes" << endl;
+			}
+			else
+			{
+				cout << "No" << endl;
+			}
+			v.clear();
+		}
+	}
+	return 0;
+}
