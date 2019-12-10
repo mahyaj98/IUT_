@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int bsearch(int a[], int low, int up, int num)
+{
+	if (num == a[((up - low) / 2) + low]) return 1;
+	if (up - 1 <= low) return 0;
+	if (num < a[(up - low) / 2 + low]) {
+		return bsearch(a, low, (up - low) / 2 + low, num);
+	}
+	else if (num>a[(up - low) / 2 + low]) {
+		return bsearch(a, ((up - low) / 2) + low, up, num);
+
+	}
+	
+}
+int main() {
+	int n, m, l;
+	int *a;
+	scanf("%d", &n);
+	a = (int *)malloc(sizeof(int)*n);
+	for (int i = 0; i<n; i++) {
+		scanf("%d", &a[i]);
+	}
+	for (int e = 0; e<n; e++) {
+		for (int i = 0; i<n - 1; i++) {
+			if (a[i + 1] < a[i]) {
+				m = a[i];
+				l = a[i + 1];
+				a[i] = l;
+				a[i + 1] = m;
+			}
+		}
+	}
+	while (1) {
+		int x;
+		scanf("%d", &x);
+		if (x == -1)
+			break;
+		m = bsearch(a, 0, n + 1, x);
+		if (m == 1) {
+			printf("yes\n");
+		}
+		if (m == 0) {
+			printf("no\n");
+		}
+	}
+
+	return 0;
+}

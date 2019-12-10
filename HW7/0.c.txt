@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+ int main()
+ {
+	 int counter=0 , i=0;
+	 char a[1004]={};
+	 fgets(a,1001,stdin);
+	 while(1)
+	 {
+		 printf("%c",a[i]);
+		 if(a[i]=='a'||a[i]=='u'||a[i]=='e'||a[i]=='i'||a[i]=='o'||a[i]=='A'||a[i]=='U'||a[i]=='O'||a[i]=='E'||a[i]=='I')
+		 {
+		 printf("z%c",a[i]);
+		 }
+		 if(a[i]==' ')
+		 {
+			 counter++;
+		 }
+		 if(a[i]=='\n')
+		 {
+			 break;
+		 }
+		 i++;
+	 }
+	 printf("%d",counter+1);
+
+ return 0;
+ }

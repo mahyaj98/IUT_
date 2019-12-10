@@ -1,0 +1,991 @@
+#include <stdio.h>
+#include <stdlib.h>
+#ifdef WIN32
+#include <Windows.h>
+#include <conio.h>
+#endif
+#include <time.h>
+char table[9] = {49,50,51,52,53,54,55,56,57};
+char comp , player;
+int compscr=0 , playerscr=0;
+int CompCheck();
+int PlayerTurn();
+int CompTurnH();
+int CompTurnM();
+int CompTurnE();
+void ShowL();
+void ShowWIN();
+int PlayerCheck();
+int TableCheck();
+void ScoreBoard ();
+int main(){
+    int r , l , compwon=0,playerwon=0 , level = 0 ;
+    char c , p= 0 , m=0 , d , n , w=0 , z;
+    printf("\nTIC        TAC        TOE\n");
+    while(1){
+    printf("\nwould you like to be X or O?\nEnter Q to exit.\n");
+    while(1){
+#ifdef WIN32
+        c = getch();//players choose the character which they are playing with.
+#else
+        c=getchar();
+#endif
+        if(c == 'X' || c == 'x'){
+            player = 'X';
+            comp = 'O';
+            break;
+        }
+        else if(c == 'O' || c == 'o'){
+            player = 'O';
+            comp = 'X';
+            break;
+        }
+        else if(c == 'q' || c == 'Q'){
+            return 0;
+        }
+        else if(c=='\n'){
+        }
+        else{
+            printf("\nundefiend variable.please try again.enter Q to exit\n");
+        }
+    }
+    printf("\nplease choose the difficulty level to this game.\n H for hard\n M for medium\n E for easy\n Q for quit\n ");
+    while(1){
+#ifdef WIN32
+        z = getch();
+#else
+        z=getchar();
+#endif
+        if(z=='h'||z=='H'){
+            level = 3;
+            break;
+        }
+        else if(z=='m'||z=='M'){
+            level = 2;
+            break;
+        }
+        else if(z=='e'||z=='E'){
+            level = 1;
+            break;
+        }
+        else if(z=='q'||z=='Q'){
+            return 0;
+        }
+        else if(z=='\n'){
+        }
+        else{
+            printf("\nUndefiend variable.Please try again.enter Q to exit.\n");
+        }
+    }
+    srand(time(0));
+    l = rand()%2 +  1;//l = 1 for player turn and l = 2 for comp turn
+    while(1){
+        if(l==1){
+#ifdef WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+            printf("\nYou are %c ",player);
+            printf("and the difficulty level is ");
+            if(level == 3)
+                printf("hard!\n");
+            else if(level == 2)
+                printf("medium!\n");
+            else if(level == 1)
+                printf("easy!\n");
+            printf("\n\t\tYour Turn!\n\n");
+#ifdef WIN32
+			ShowWIN();
+#else
+			ShowL();
+#endif
+            m = TableCheck();//check if the tble is full in the previous turn.the function returns 1 in case of the table being full.
+            if(m==1){
+                break;
+            }
+            l = PlayerTurn();//first does the player turn functions and then the function returns the 0 or 2. 0 ends the game and 2 is for te comp turn;
+            if (l==0){
+                return 0;
+            }
+            r = PlayerCheck();//the function checks if the player move was a winner move and return 1 in this case else returns 0;
+            if (r == 1){
+                playerscr++;//sums the player scores
+                playerwon=1;//for printing the winner message
+                break;
+            }
+#ifdef WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+            printf("\nYou are %c ",player);//status bar
+            printf("and the difficulty level is ");
+            if(level == 3)
+                printf("hard!\n");
+            else if(level == 2)
+                printf("medium!\n");
+            else if(level == 1)
+                printf("easy!\n");
+#ifdef WIN32
+			ShowWIN();
+#else
+			ShowL();
+#endif
+            continue;
+        }
+        if(l==2){
+            m = TableCheck();//checkes if the table is full if the function returns 1 it means the table got filled without exiting in other parts of the code such as 
+            if(m==1)
+                break;
+#ifdef WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+            printf("\nYou are %c ",player);//status bar
+            printf("and the difficulty level is ");
+            if(level == 3)
+                printf("hard!\n");
+            else if(level == 2)
+                printf("medium!\n");
+            else if(level == 1)
+                printf("easy!\n");
+			printf("\n\t\tcomputers Turn!please wait...\n");
+#ifdef WIN32
+			ShowWIN();
+#else
+			ShowL();
+#endif
+
+            if(level == 3){
+                l = CompTurnH();//returns 1 if some home got filled else returns 0 (just because it should return sth:)) )
+            }
+            else if(level == 2){
+                l = CompTurnM();
+            }
+            else if(level == 1){
+                l = CompTurnE();
+            }
+            d = CompCheck();
+            if(d == 1){
+                compwon=1;//printing the winner message
+                compscr++;//comp score
+                break;
+            }
+            continue;
+        }
+    }
+#ifdef WIN32
+            system("cls");
+#else
+            system("clear");
+#endif    
+    printf("\nYou were %c ",player);//status bar
+            printf("and the difficulty level was ");
+            if(level == 3)
+                printf("hard!\n");
+            if(level == 2)
+                printf("medium!\n");
+            if(level == 1)
+                printf("easy!\n");
+#ifdef WIN32
+			ShowWIN();
+#else
+			ShowL();
+#endif
+    if(compwon == 1){
+        printf("\n\t\tComputer won!Sorry!\n");
+    }
+    else if(playerwon == 1){
+        printf("\n\t\tCongrats!You won!\n");
+    }
+    else if(m == 1){
+        printf("\n\t\tNo One won!\n");
+        
+    }
+    ScoreBoard();
+ 
+#ifdef WIN32
+    printf("\nPress any key to continue.\n");
+    getch();
+    
+#else
+    printf("\nPress enter to continue.\n");
+    getchar();
+    getchar();
+    
+#endif
+#ifdef WIN32
+    system("cls");
+    
+#else
+    system("clear");
+    
+#endif
+    printf("\nDo you want to play again?\nY for yes \nQ for quit\n");
+    while(1){
+#ifdef WIN32
+        n = getch();
+        system("cls");
+#else
+        n=getchar();
+#endif
+        if(n=='y'||n=='Y'){
+            w = 1;
+            break;
+        }
+        if(n=='q'||n=='Q'){
+            return 0;
+        }
+        else if(n=='\n'){
+        }
+        else{
+            printf("\nUndefiend variable.please try again\n");
+        }
+    
+    }
+    if (w== 1){
+        w = 0;
+        for(int i = 0;i<=8;i++){
+                table[i]=49 + i;
+        }
+#ifdef WIN32
+            system("cls");
+#else
+            system("clear");
+#endif
+        p = 0;
+        compwon=0;
+        playerwon=0;
+        level = 0;
+        continue;
+    }
+    else{
+        break;
+    }
+}
+    return 0;
+}
+int PlayerTurn(){
+    int p=0;
+    char f;
+     printf("\nPlease enter the number of the square you wish to fill.\nEnter Q for quit\n");
+     while(1){
+#ifdef WIN32
+        f = getch();
+#else
+        f=getchar();
+#endif
+        if(f>=49&&f<=57){
+            p = f  - 49;
+            if(table[p]>=49 && table[p]<=57){
+                table[p]=player;
+                return 2;
+            }
+            else{
+                printf("\nThis one is full as you can see!\nplease choose another one.\n");
+            }
+        }
+        else if(f=='\n'){
+        }
+        else if(f == 'q'|| f == 'Q'){
+            return 0;
+        }
+        else{
+            printf("\nUndefiend variable.Please try again.\nQ for quit.\n");
+        }
+    }
+}
+int CompTurnH(){
+    if(table[0]==comp && table[1]==comp){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==comp && table[2]==comp){
+        if(table[1]>=49 && table[1]<=57){
+            table[1]=comp;
+            return 1;
+        }
+ 
+    }
+    if(table[1]==comp && table[2]==comp){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==comp && table[4]==comp){
+        if(table[5]>=49 && table[5]<=57){
+            table[5]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==comp && table[5]==comp){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==comp && table[5]==comp){
+        if(table[3]>=49 && table[3]<=57){
+            table[3]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==comp && table[7]==comp){
+        if(table[8]>=49 && table[8]<=57){
+            table[8]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==comp && table[8]==comp){
+        if(table[7]>=49 && table[7]<=57){    
+            table[7]=comp;
+            return 1;
+        }
+    }
+    if(table[7]==comp && table[8]==comp){
+        if(table[6]>=49 && table[6]<=57){    
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==comp && table[3]==comp){
+        if(table[6]>=49 && table[6]<=57){
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==comp && table[6]==comp){
+        if(table[3]>=49 && table[3]<=57){
+            table[3]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==comp && table[6]==comp){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[1]==comp && table[4]==comp){
+        if(table[7]>=49 && table[7]<=57){
+            table[7]=comp;
+            return 1;
+        }
+    }
+    if(table[1]==comp && table[7]==comp){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+            }
+        }
+    if(table[4]==comp && table[7]==comp){
+            if(table[1]>=49 && table[1]<=57){
+                table[1]=comp;
+                return 1;
+            }
+        }
+    if(table[2]==comp && table[5]==comp){
+            if(table[8]>=49 && table[8]<=57){
+                table[8]=comp;
+                return 1;
+            }
+        }
+    if(table[2]==comp && table[8]==comp){
+            if(table[5]>=49 && table[5]<=57){
+                table[5]=comp;
+                return 1;
+            }
+        }
+    if(table[5]==comp && table[8]==comp){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==comp && table[4]==comp){
+        if(table[8]>=49 && table[8]<=57){
+            table[8]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==comp && table[8]==comp){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==comp && table[8]==comp){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==comp && table[4]==comp){
+        if(table[6]>=49 && table[6]<=57){
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==comp && table[6]==comp){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==comp && table[4]==comp){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[1]==player){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[2]==player){
+        if(table[1]>=49 && table[1]<=57){
+            table[1]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[1]==player){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==player && table[4]==player){
+        if(table[5]>=49 && table[5]<=57){
+            table[5]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==player && table[5]==player){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==player && table[5]==player){
+        if(table[3]>=49 && table[3]<=57){
+            table[3]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==player && table[7]==player){
+        if(table[8]>=49 && table[8]<=57){
+            table[8]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==player && table[8]==player){
+        if(table[7]>=49 && table[7]<=57){
+            table[7]=comp;
+            return 1;
+        }
+    }
+    if(table[7]==player && table[8]==player){
+        if(table[6]>=49 && table[6]<=57){
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[3]==player){
+        if(table[6]>=49 && table[6]<=57){
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[6]==player){
+        if(table[3]>=49 && table[3]<=57){
+            table[3]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==player && table[6]==player){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[1]==player && table[4]==player){
+        if(table[7]>=49 && table[7]<=57){
+            table[7]=comp;
+            return 1;
+        }
+    }
+    if(table[1]==player && table[7]==player){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==player && table[7]==player){
+        if(table[1]>=49 && table[1]<=57){
+            table[1]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[5]==player){
+        if(table[8]>=49 && table[8]<=57){
+            table[8]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[8]==player){
+        if(table[5]>=49 && table[5]<=57){
+            table[5]=comp;
+            return 1;
+        }
+    }
+    if(table[5]==player && table[8]==player){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+        
+    }
+    if(table[0]==player && table[4]==player){
+        if(table[8]>=49 && table[8]<=57){
+            table[8]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[8]==player){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==player && table[8]==player){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[4]==player){
+        if(table[6]>=49 && table[6]<=57){
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[6]==player){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==player && table[4]==player){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+    }
+    
+    if(table[0]==comp){
+        if(table[1]>=49 && table[1]<=57 && table[2]>=49 && table[2]<=57){
+            table[1]=comp;
+            return 1;
+        }
+        if(table[4]>=49 && table[4]<=57 && table[8]>=49 && table[8]<=57){
+            table[4]=comp;
+            return 1;
+        }
+        if(table[3]>=49 && table[3]<=57 && table[6]>=49 && table[6]<=57){
+            table[3]=comp;
+            return 1;
+        }
+    }
+    if(table[1]==comp){
+        if(table[0]>=49 && table[0]<=57 && table[2]>=49 && table[2]<=57){
+            table[0]=comp;
+            return 1;
+        }
+        if(table[4]>=49 && table[4]<=57 && table[7]>=49 && table[7]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==comp){
+        if(table[1]>=49 && table[1]<=57 && table[0]>=49 && table[0]<=57){
+            table[1]=comp;
+            return 1;
+        }
+        if(table[4]>=49 && table[4]<=57 && table[6]>=49 && table[6]<=57){
+            table[4]=comp;
+            return 1;
+        }
+        if(table[5]>=49 && table[5]<=57 && table[8]>=49 && table[8]<=57){
+            table[5]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==comp){
+        if(table[4]>=49 && table[4]<=57 && table[5]>=49 && table[5]<=57){
+            table[4]=comp;
+            return 1;
+        }
+        if(table[0]>=49 && table[0]<=57 && table[6]>=49 && table[6]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==comp){
+        if(table[1]>=49 && table[1]<=57 && table[7]>=49 && table[7]<=57){
+            table[1]=comp;
+            return 1;
+        }
+        if(table[3]>=49 && table[3]<=57 && table[5]>=49 && table[5]<=57){
+            table[3]=comp;
+            return 1;
+        }
+    }
+    if(table[5]==comp){
+        if(table[4]>=49 && table[4]<=57 && table[3]>=49 && table[3]<=57){
+            table[4]=comp;
+            return 1;
+        }
+        if(table[2]>=49 && table[2]<=57 && table[8]>=49 && table[8]<=57){
+            table[2]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==comp){
+        if(table[3]>=49 && table[3]<=57 && table[0]>=49 && table[0]<=57){
+            table[3]=comp;
+            return 1;
+        }
+        if(table[4]>=49 && table[4]<=57 && table[2]>=49 && table[2]<=57){
+            table[4]=comp;
+            return 1;
+        }
+        if(table[7]>=49 && table[7]<=57 && table[8]>=49 && table[8]<=57){
+            table[7]=comp;
+            return 1;
+        }
+    }
+    if(table[7]==comp){
+        if(table[6]>=49 && table[6]<=57 && table[8]>=49 && table[8]<=57){
+            table[6]=comp;
+            return 1;
+        }
+        if(table[4]>=49 && table[4]<=57 && table[1]>=49 && table[1]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[8]==comp){
+        if(table[4]>=49 && table[4]<=57 && table[0]>=49 && table[0]<=57){
+            table[4]=comp;
+            return 1;
+        }
+        if(table[5]>=49 && table[5]<=57 && table[2]>=49 && table[2]<=57){
+            table[5]=comp;
+            return 1;
+        }
+        if(table[7]>=49 && table[7]<=57 && table[6]>=49 && table[6]<=57){
+            table[7]=comp;
+            return 1;
+        }
+    }
+    if(table[4]>=49 && table[4]<=57){
+        table[4]=comp;
+        return 1;
+    }
+    if(table[0]>=49 && table[0]<=57){
+        table[0]=comp;
+        return 1;
+    }
+    if(table[2]>=49 && table[2]<=57){
+        table[2]=comp;
+        return 1;
+    }
+    if(table[6]>=49 && table[6]<=57){
+        table[6]=comp;
+        return 1;
+    }
+    if(table[8]>=49 && table[8]<=57){
+        table[8]=comp;
+        return 1;
+    }
+    if(table[1]>=49 && table[1]<=57){
+        table[1]=comp;
+        return 1;
+    }
+    if(table[5]>=49 && table[5]<=57){
+        table[5]=comp;
+        return 1;
+    }
+    if(table[7]>=49 && table[7]<=57){
+        table[7]=comp;
+        return 1;
+    }
+    if(table[1]>=49 && table[1]<=57){
+        table[1]=comp;
+        return 1;
+    }
+    return 0;
+}
+int CompTurnM(){
+    int x;
+    if(table[0]==player && table[1]==player){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[2]==player){
+        if(table[1]>=49 && table[1]<=57){
+            table[1]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[1]==player){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==player && table[4]==player){
+        if(table[5]>=49 && table[5]<=57){
+            table[5]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==player && table[5]==player){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==player && table[5]==player){
+        if(table[3]>=49 && table[3]<=57){
+            table[3]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==player && table[7]==player){
+        if(table[8]>=49 && table[8]<=57){
+            table[8]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==player && table[8]==player){
+        if(table[7]>=49 && table[7]<=57){
+            table[7]=comp;
+            return 1;
+        }
+    }
+    if(table[7]==player && table[8]==player){
+        if(table[6]>=49 && table[6]<=57){
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[3]==player){
+        if(table[6]>=49 && table[6]<=57){
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[6]==player){
+        if(table[3]>=49 && table[3]<=57){
+            table[3]=comp;
+            return 1;
+        }
+    }
+    if(table[3]==player && table[6]==player){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[1]==player && table[4]==player){
+        if(table[7]>=49 && table[7]<=57){
+            table[7]=comp;
+            return 1;
+        }
+    }
+    if(table[1]==player && table[7]==player){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==player && table[7]==player){
+        if(table[1]>=49 && table[1]<=57){
+            table[1]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[5]==player){
+        if(table[8]>=49 && table[8]<=57){
+            table[8]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[8]==player){
+        if(table[5]>=49 && table[5]<=57){
+            table[5]=comp;
+            return 1;
+        }
+    }
+    if(table[5]==player && table[8]==player){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+        
+    }
+    if(table[0]==player && table[4]==player){
+        if(table[8]>=49 && table[8]<=57){
+            table[8]=comp;
+            return 1;
+        }
+    }
+    if(table[0]==player && table[8]==player){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[4]==player && table[8]==player){
+        if(table[0]>=49 && table[0]<=57){
+            table[0]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[4]==player){
+        if(table[6]>=49 && table[6]<=57){
+            table[6]=comp;
+            return 1;
+        }
+    }
+    if(table[2]==player && table[6]==player){
+        if(table[4]>=49 && table[4]<=57){
+            table[4]=comp;
+            return 1;
+        }
+    }
+    if(table[6]==player && table[4]==player){
+        if(table[2]>=49 && table[2]<=57){
+            table[2]=comp;
+            return 1;
+        }
+    }
+    
+    while(1){
+        srand(time(0));
+        x = rand()%9;
+        if(table[x]>=49 && table[x]<=57){
+            table[x]=comp;
+            return 1;
+        }
+    }
+    return 0;
+}
+int CompTurnE(){
+    int x;
+    while(1){
+        srand(time(0));
+        x = ((rand())%9);
+        if(table[x]>=49 && table[x]<=57){
+            table[x]=comp;
+            return 1;
+        }
+    }
+    return 0;
+}
+ void ShowWIN(){
+	 printf("\n\t\t%c%c%c%c%c%c%c%c%c%c%c%c%c\n",218,196,196,196,194,196,196,196,194,196,196,196,191);
+	 printf("\t\t%c%c%c%c%c%c%c%c%c%c%c%c%c\n",179,32,table[0],32,179,32,table[1],32,179,32,table[2],32,179);
+	 printf("\t\t%c%c%c%c%c%c%c%c%c%c%c%c%c\n",195,196,196,196,197,196,196,196,197,196,196,196,180);
+	 printf("\t\t%c%c%c%c%c%c%c%c%c%c%c%c%c\n",179,32,table[3],32,179,32,table[4],32,179,32,table[5],32,179);
+	 printf("\t\t%c%c%c%c%c%c%c%c%c%c%c%c%c\n",195,196,196,196,197,196,196,196,197,196,196,196,180);
+	 printf("\t\t%c%c%c%c%c%c%c%c%c%c%c%c%c\n",179,32,table[6],32,179,32,table[7],32,179,32,table[8],32,179);
+	 printf("\t\t%c%c%c%c%c%c%c%c%c%c%c%c%c\n",192,196,196,196,193,196,196,196,193,196,196,196,217);
+ }
+    void ShowL(){
+ 
+    printf("\n\t\t+---+---+---+\n");
+    printf("\t\t| %c | %c | %c |\n", table[0] ,table[1] ,table[2]);
+    printf("\t\t+---+---+---+\n");
+    printf("\t\t| %c | %c | %c |\n", table[3] ,table[4] ,table[5]);
+    printf("\t\t+---+---+---+\n");
+    printf("\t\t| %c | %c | %c |\n", table[6] ,table[7] ,table[8]);
+    printf("\t\t+---+---+---+\n");
+    }
+    int CompCheck(){
+        if(table[0]==comp&&table[1]==comp&&table[2]==comp){
+            return 1;
+        }
+        else if(table[3]==comp&&table[4]==comp&&table[5]==comp){
+            return 1;
+        }
+        else if(table[6]==comp&&table[7]==comp&&table[8]==comp){
+            return 1;
+        }
+        else if(table[0]==comp&&table[3]==comp&&table[6]==comp){
+            return 1;
+        }
+        else if(table[1]==comp&&table[4]==comp&&table[7]==comp){
+            return 1;
+        }
+        else if(table[2]==comp&&table[5]==comp&&table[8]==comp){
+            return 1;
+        }
+        else if(table[0]==comp&&table[4]==comp&&table[8]==comp){
+            return 1;
+        }
+        else if(table[2]==comp&&table[4]==comp&&table[6]==comp){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    int PlayerCheck(){
+        if(table[0]==player&&table[1]==player&&table[2]==player){
+            return 1;
+        }
+        else if(table[3]==player&&table[4]==player&&table[5]==player){
+            return 1;
+        }
+        else if(table[6]==player&&table[7]==player&&table[8]==player){
+            return 1;
+        }
+        else if(table[0]==player&&table[3]==player&&table[6]==player){
+            return 1;
+        }
+        else if(table[1]==player&&table[4]==player&&table[7]==player){
+            return 1;
+        }
+        else if(table[2]==player&&table[5]==player&&table[8]==player){
+            return 1;
+        }
+        else if(table[0]==player&&table[4]==player&&table[8]==player){
+            return 1;
+        }
+        else if(table[2]==player&&table[4]==player&&table[6]==player){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+    int TableCheck(){
+    if(table[0]>57 &&table[1]>57 &&table[2]>57 &&table[3]>57 &&table[4]>57 &&table[5]>57 &&table[6]>57 &&table[7]>57&&table[8]>57){
+        return  1;
+    }
+    return 0;
+    }
+    void ScoreBoard (){
+        printf("\n\t\tPlayer score\n\t\t\t%d\n\t\tComputer score\n\t\t\t%d" ,playerscr ,compscr);
+    }
