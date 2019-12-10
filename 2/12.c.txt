@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int main(){
+	 int m , n , i , j;
+	 scanf("%d%d", &m , &n);
+	 if( m <= n){
+		 printf("Wrong order!");
+	 }
+	 else if((m - n ) % 2 != 0){
+		 printf("Wrong difference!");
+	 }
+	 else{
+		 for(i = 1 ; i <= m ;i++){
+			 for(j = 1;j <= m;j++){
+				 if(j <= (m - n)/ 2 || j>( m - (m- n)/2) || i<= (m-n)/2 || i >( m - (m - n)/2)){
+					 printf("*");
+				 }
+				 else{
+					 printf(" ");
+				 }
+			 }
+			 printf("\n");
+		 }
+	 }
+
+	return 0;
+}

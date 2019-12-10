@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+int main()
+{
+	float a = 0 , sum = 0 , multi = 1 , avg = 0 , max = -1000 , min = 1000 , i = 1;
+	for(;i <= 4;i++){
+		scanf("%f", &a);
+		sum = sum + a;
+		multi = multi * a;
+		if(a >= max){
+			max = a;
+		}
+		if(a <= min){
+			min = a;
+		}
+	}
+	avg = sum / 4;
+	printf("Sum : %f", sum);
+	printf("\nAverage : %f", avg);
+	printf("\nProduct : %f", multi);
+	printf("\nMAX : %f", max);
+	printf("\nMIN : %f", min);
+	return 0;
+}

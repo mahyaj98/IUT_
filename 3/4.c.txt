@@ -1,0 +1,24 @@
+#include <stdio.h>
+int m = 1  , t = 2;
+void elect(int n){
+	if(n == 2){
+		return;
+	}
+	else{
+		m = m + 2;
+		t++;
+		if(m>t)
+			m=m-t;
+		
+			elect (n - 1);
+	}
+}
+ 
+ 
+int main() {
+  int a , n ;
+    scanf("%d", &n);
+     elect(n);
+    printf("%d",m);
+    return 0;
+}

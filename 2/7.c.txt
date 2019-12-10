@@ -1,0 +1,25 @@
+#include <stdio.h>
+ int main(){
+	int n;
+	scanf("%d", &n);
+	for (int t = 0; t < n + 1 ; t++){
+		for(int e = 0;e < n - t;e++){
+			printf(" ");
+		}
+		for(int e = 0; e < 2 * t + 1;e++){
+			printf("*");
+		}
+		printf("\n");
+	}
+
+	for (int t = n;t > 0 ; t--){
+		for(int e = 0;e < n - t + 1;e++){
+			printf(" ");
+		}
+		for(int e = 0; e < 2 * t - 1;e++){
+			printf("*");
+		}
+		printf("\n");
+	}
+	return 0;
+}

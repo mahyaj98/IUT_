@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <math.h>
+ 
+int main(){
+    double a , b , c, x1 , x2 , delta , max , min;
+    scanf("%lf%lf%lf", &a, &b, &c);    
+    if(a == 0 && b == 0 && c!=0)
+        printf("IMPOSSIBLE");
+    else if(a == 0 && b != 0){
+        x1 = ( -1 * c )/ b;
+		if(x1==-0){
+			x1 = 0;
+		}
+        printf("%.3lf", x1);
+    }
+    else{
+        delta = b*b - 4 * a * c;
+        if(delta > 0){
+            x1 = (-1 * b + sqrt(delta))/ (2 * a);
+            x2 = (-1 * b - sqrt(delta))/ (2 * a);
+			if(x1==-0){
+			x1 = 0;
+			}
+			if(x2==-0){
+			x2 = 0;
+			}
+            min = x1;
+            max = x2;
+            if(x1 > x2){
+                min = x2;
+                max = x1;
+            }
+            printf("%.3lf\n%.3lf",min , max);
+        }
+        else if(delta == 0){
+            x1 =( -1 * b )/(2 * a);
+			if(x1==-0){
+			x1 = 0;
+			}
+            printf("%.3lf", x1);
+        }
+        else {
+            printf("IMPOSSIBLE");
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main()
+{
+	int a = 0 , b = 0;
+	scanf("%d%d", &a, &b);
+	a = 12 - a;
+	b = 60 - b;
+	if(a == 12)
+		a = 0;
+	if(b == 60)
+		b = 0;
+	if(a < 10)
+		printf("0%d", a);
+	else
+		printf("%d", a);
+	printf(":");
+	if(b < 10)
+		printf("0%d", b);
+	else
+		printf("%d", b);
+	return 0;
+}
