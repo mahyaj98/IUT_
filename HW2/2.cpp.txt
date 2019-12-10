@@ -1,0 +1,49 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+int x;
+vector<vector<int> > v, dp;
+
+int fuel(int alt, int dist) {
+	if (alt > 9 || alt < 0 || dist > x)
+	{
+		return 1e9;
+	}
+	if (dist == x)
+	{
+		if (alt == 0) 
+		{
+			return 0;
+		}
+		else
+		{
+			return 1e9;
+		}
+	}
+
+	if (dp[alt][dist] != -1) 
+	{
+		return dp[alt][dist];
+	}
+
+	return dp[alt][dist] = min(60 - v[alt][dist] + fuel(alt + 1, dist + 1),min(30 - v[alt][dist] + fuel(alt, dist + 1),20 - v[alt][dist] + fuel(alt - 1, dist + 1)));
+}
+
+int main() {
+	cin >> x;
+	x /= 100;
+	v.resize(10, vector<int>(x));
+	for (int i = 9; i >= 0; i--)
+	{
+		for (int j = 0; j < x; j++)
+		{
+			cin >> v[i][j];
+		}
+	}
+	dp.resize(10, vector<int>(x, -1));
+	int ans = fuel(0, 0);
+	cout << ans;
+
+	return 0;
+}
