@@ -1,0 +1,183 @@
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+</style>
+</head>
+
+
+<form action="{% url 'Cat' %}" method="post">
+
+    <ul>
+    <p> Add a Category </p>
+      <p> ID </p>
+    <input id="id1" type="text" name="id1" value="{{ current_name }}">
+
+    <p> Name </p>
+
+    <input id="name" type="text" name="name" value="{{ current_name }}">
+    </ul>
+
+<input type="submit" value="Submit">
+</form>
+
+<form action="{% url 'Count' %}" method="post">
+
+    <ul>
+    <p> Add a Country </p>
+      <p> ID </p>
+    <input id="idd" type="text" name="id1" value="{{ current_name }}">
+
+    <p> Name </p>
+
+    <input id="named" type="text" name="name" value="{{ current_name }}">
+    </ul>
+
+<input type="submit" value="Submit">
+</form>
+
+<form action="{% url 'City' %}" method="post">
+
+    <ul>
+    <p> Add a City </p>
+      <p> ID </p>
+    <input id="iddd" type="text" name="id1" value="{{ current_name }}">
+
+    <p> Name </p>
+
+    <input id="namedd" type="text" name="name" value="{{ current_name }}">
+
+        <p> CountryID </p>
+
+    <input id="coid" type="text" name="coid" value="{{ current_name }}">
+    </ul>
+
+<input type="submit" value="Submit">
+</form>
+
+<form action="{% url 'User' %}" method="post">
+
+    <ul>
+    <p> Add a User </p>
+      <p> Full Name </p>
+
+    <input id="idddd" type="text" name="fn" value="{{ current_name }}">
+
+    <p> User Name </p>
+
+    <input id="nameddd" type="text" name="un" value="{{ current_name }}">
+
+        <p> CountryID </p>
+
+    <input id="coidd" type="text" name="coid" value="{{ current_name }}">
+
+         <p> CityID </p>
+
+    <input id="ciidd" type="text" name="ciid" value="{{ current_name }}">
+
+        <p> Description </p>
+
+    <input id="desc" type="text" name="desc" value="{{ current_name }}">
+
+        <p> Email </p>
+
+    <input id="email" type="text" name="email" value="{{ current_name }}">
+
+        <p> Phone </p>
+
+    <input id="phone" type="text" name="phone" value="{{ current_name }}">
+    </ul>
+
+
+<input type="submit" value="Submit">
+</form>
+
+<form action="{% url 'RequestProduct' %}" method="post">
+
+    <ul>
+    <p> Add a RequestProduct </p>
+      <p> ID </p>
+
+    <input id="iddddd" type="text" name="id" value="{{ current_name }}">
+
+    <p> User Name </p>
+
+    <input id="namedddd" type="text" name="un" value="{{ current_name }}">
+
+        <p> CountryID </p>
+
+    <input id="coiddd" type="text" name="coid" value="{{ current_name }}">
+
+         <p> CityID </p>
+
+    <input id="ciiddd" type="text" name="ciid" value="{{ current_name }}">
+
+        <p> Description </p>
+
+    <input id="descd" type="text" name="desc" value="{{ current_name }}">
+
+        <p> PostDate </p>
+
+    <input id="post" type="text" name="post" value="{{ current_name }}">
+
+        <p> ExpirationDate </p>
+
+    <input id="expire" type="text" name="expire" value="{{ current_name }}">
+
+        <p> Price </p>
+
+    <input id="price" type="text" name="price" value="{{ current_name }}">
+    </ul>
+
+
+<input type="submit" value="Submit">
+</form>
+
+<form action="{% url 'RequestService' %}" method="post">
+
+    <ul>
+    <p> Add a RequestService </p>
+      <p> ID </p>
+
+    <input id="idddddd" type="text" name="id" value="{{ current_name }}">
+
+    <p> User Name </p>
+
+    <input id="nameddddd" type="text" name="un" value="{{ current_name }}">
+
+        <p> CountryID </p>
+
+    <input id="coidddd" type="text" name="coid" value="{{ current_name }}">
+
+         <p> CityID </p>
+
+    <input id="ciidddd" type="text" name="ciid" value="{{ current_name }}">
+
+        <p> Description </p>
+
+    <input id="descdd" type="text" name="desc" value="{{ current_name }}">
+
+        <p> PostDate </p>
+
+    <input id="postd" type="text" name="post" value="{{ current_name }}">
+
+        <p> ExpirationDate </p>
+
+    <input id="expired" type="text" name="expire" value="{{ current_name }}">
+
+        <p> Price </p>
+
+    <input id="priced" type="text" name="price" value="{{ current_name }}">
+
+         <p> Category </p>
+
+    <input id="cat" type="text" name="cat" value="{{ current_name }}">
+    </ul>
+
+
+<input type="submit" value="Submit">
+</form>
+
