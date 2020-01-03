@@ -1,0 +1,499 @@
+{\rtf1\ansi\deff0\nouicompat{\fonttbl{\f0\fnil\fcharset0 Courier New;}}
+{\*\generator Riched20 10.0.18362}\viewkind4\uc1 
+\pard\f0\fs22\lang1033 -- DATABASE DESIGN 1 3981 @ IUT\par
+-- YOUR NAME:   MAHYA JAMSHIDIAN\par
+-- YOUR STUDENT NUMBER:   9525133\par
+\par
+\par
+---- Q4-A\par
+
+\pard create table country(\par
+    id int primary key not null,\par
+    name varchar(100) not null\par
+);\par
+\par
+create table state(\par
+    id int primary key not null,\par
+    name varchar(100) not null,\par
+    country_id int references country(id)\par
+);\par
+\par
+create table city(\par
+    id int primary key not null,\par
+    name varchar(100) not null,\par
+    state_id int references state(id)\par
+);\par
+\par
+create table airport(\par
+    id varchar(3) primary key not null,\par
+    name varchar(100) not null,\par
+    city_id int references city(id),\par
+    lat float,\par
+    lan float\par
+);\par
+\par
+create table airline(\par
+    id varchar(2) primary key not null,\par
+    name varchar(100) not null\par
+);\par
+\par
+create table flight(\par
+    id int primary key not null,\par
+    start_date date not null,\par
+    start_airport_id varchar(3) not null references airport(id),\par
+    end_airport_id varchar(3) not null references airport(id),\par
+    start_hour time,\par
+    airline_id varchar(2) not null references airline(id),\par
+    flight_number int,\par
+    last_price int check(last_price > 0),\par
+    last_capacity int check (last_capacity > 0)\par
+);\par
+\par
+create table price_capacity(\par
+    flight_id int references flight(id),\par
+    date timestamp,\par
+    price int not null check(price > 0),\par
+    capacity int not null check(capacity > 0),\par
+    channel varchar(100) check(channel in('web service', 'airline system', 'phone')),\par
+    primary key(flight_id, date)\par
+);\par
+\par
+create table passenger(\par
+    id int primary key not null,\par
+    first_name varchar(100) not null,\par
+    last_name varchar(100) not null,\par
+    age int check(age > 0 AND age < 150),\par
+    gender varchar(10) check(gender in('male', 'female'))\par
+);\par
+\par
+create table ticket(\par
+    id int primary key not null,\par
+    flight_id int not null references flight(id),\par
+    passenger_id int references passenger(id),\par
+    seat int not null check(seat > 0),\par
+    price int not null check(price > 0)\par
+);\par
+\par
+insert into airline(id, name) values ('K5', 'Aban Air');\par
+insert into airline(id, name) values ('I3', 'ATA Airlines (Iran)');\par
+insert into airline(id, name) values ('RV', 'Caspian Airlines');\par
+insert into airline(id, name) values ('IR', 'Iran Air');\par
+insert into airline(id, name) values ('EP', 'Iran Aseman Airlines');\par
+insert into airline(id, name) values ('NV', 'Karun Airlines');\par
+insert into airline(id, name) values ('Y9', 'Kish Air');\par
+insert into airline(id, name) values ('W5', 'Mahan Air');\par
+insert into airline(id, name) values ('PA', 'Parmiss Airlines (IPV)');\par
+\par
+insert into country values (1, 'Iran');\par
+\par
+insert into state values (1, 'Tehran', 1);\par
+insert into state values (2, 'Isfahan', 1);\par
+insert into state values (3, 'Alborz', 1);\par
+insert into state values (4, 'Kerman', 1);\par
+insert into state values (5, 'Khuzestan', 1);\par
+insert into state values (6, 'Hormozgan', 1);\par
+insert into state values (7, 'Markazi', 1);\par
+insert into state values (8, 'Ardabil', 1);\par
+insert into state values (9, 'Khorasan jonubi', 1);\par
+\par
+insert into city values (1, 'Tehran', 1);\par
+insert into city values (2, 'Isfahan', 2);\par
+insert into city values (3, 'Karaj', 3);\par
+insert into city values (4, 'Kerman', 4);\par
+insert into city values (5, 'Bam', 4);\par
+insert into city values (6, 'Abadan', 5);\par
+insert into city values (7, 'Abu Musa', 6);\par
+insert into city values (8, 'Ahvaz', 5);\par
+insert into city values (9, 'Arak', 7);\par
+insert into city values (10, 'Ardabil', 8);\par
+insert into city values (11, 'Bandar Abbas', 6);\par
+insert into city values (12, 'Bandar Lenge', 6);\par
+insert into city values (13, 'Birjand', 9);\par
+\par
+insert into airport values ('ABD', 'Abadan Airport', 6, 30.371099472, 48.2282981873);\par
+insert into airport values ('AEU', 'Abumusa I.-Abumusa Island Airport', 7, 25.875699996948242, 55.03300094604492);\par
+insert into airport values ('AWZ', 'Ahwaz Airport', 8, 31.337400436399996, 48.7620010376);\par
+insert into airport values ('AJK', 'Arak Airport', 9, 34.138099670410156, 49.8473014831543);\par
+insert into airport values ('ADU', 'Ardabil Airport', 10, 38.3256988525, 48.4244003296);\par
+insert into airport values ('BXR', 'Bam Airport', 5, 29.084199905395508, 58.45000076293945);\par
+insert into airport values ('BND', 'Bandar Abbas International Airport', 11, 27.218299865722656, 56.37779998779297);\par
+insert into airport values ('BDH', 'Bandar Lengeh Airport', 12, 26.531999588, 54.824798584);\par
+insert into airport values ('XBJ', 'Birjand Airport', 13, 32.898101806640625, 59.2661018371582);\par
+insert into airport values ('IKA', 'Imam Khomeini International Airport', 1, 35.416099548339844, 51.152198791503906);\par
+insert into airport values ('THR', 'Mehr Abad International Airport', 1, 35.6889, 51.3147);\par
+\par
+insert into flight values (1, '2019-03-30', 'ABD', 'AEU', '12:00', 'K5', 3, 200000, 20);\par
+insert into flight values (2, '2019-03-30', 'AWZ', 'AJK', '12:00', 'K5', 3, 300000, 20);\par
+insert into flight values (3, '2019-03-30', 'ADU', 'BXR', '12:00', 'K5', 3, 400000, 36);\par
+insert into flight values (4, '2019-03-30', 'BND', 'BDH', '12:00', 'I3', 3, 450000, 80);\par
+insert into flight values (5, '2019-03-30', 'XBJ', 'AEU', '12:00', 'I3', 3, 250000, 40);\par
+insert into flight values (6, '2019-03-30', 'AWZ', 'AEU', '12:00', 'I3', 3, 230000, 120);\par
+insert into flight values (7, '2019-03-30', 'BDH', 'AEU', '12:00', 'I3', 3, 220000, 20);\par
+insert into flight values (8, '2019-03-30', 'XBJ', 'AEU', '12:00', 'I3', 3, 600000, 20);\par
+insert into flight values (9, '2019-03-30', 'ABD', 'BDH', '12:00', 'RV', 3, 700000, 30);\par
+insert into flight values (10, '2019-03-30', 'BDH', 'AEU', '12:00', 'RV', 3, 250000, 20);\par
+insert into flight values (11, '2019-03-30', 'AWZ', 'AEU', '12:00', 'IR', 3, 260000, 60);\par
+insert into flight values (12, '2019-03-30', 'AJK', 'AWZ', '12:00', 'EP', 3, 290000, 20);\par
+insert into flight values (13, '2019-03-30', 'ABD', 'AJK', '12:00', 'NV', 3, 650000, 30);\par
+insert into flight values (14, '2019-03-30', 'AWZ', 'AEU', '12:00', 'Y9', 3, 200000, 20);\par
+insert into flight values (15, '2019-03-30', 'ABD', 'AWZ', '12:00', 'Y9', 3, 200000, 20);\par
+insert into flight values (16, '2019-03-30', 'AJK', 'BXR', '12:00', 'W5', 3, 200000, 20);\par
+insert into flight values (17, '2019-03-30', 'AWZ', 'BXR', '12:00', 'PA', 3, 200000, 20);\par
+insert into flight values (18, '2019-03-30', 'IKA', 'BXR', '12:00', 'W5', 3, 200000, 20);\par
+insert into flight values (19, '2019-03-30', 'THR', 'BXR', '12:00', 'PA', 3, 200000, 20);\par
+\par
+insert into price_capacity values (1, '2015-09-01T16:34:02', 200000, 20, 'airline system');\par
+insert into price_capacity values (1, '2015-09-01T16:38:02', 250000, 30, 'airline system');\par
+insert into price_capacity values (1, '2015-09-01T16:40:02', 260000, 30, 'airline system');\par
+insert into price_capacity values (2, '2015-09-01T16:34:02', 300000, 20, 'airline system');\par
+insert into price_capacity values (2, '2015-09-01T16:32:02', 350000, 20, 'airline system');\par
+insert into price_capacity values (3, '2015-09-01T16:34:02', 400000, 36, 'airline system');\par
+insert into price_capacity values (4, '2015-09-01T16:34:02', 450000, 80, 'airline system');\par
+insert into price_capacity values (5, '2015-09-01T16:34:02', 250000, 40, 'airline system');\par
+insert into price_capacity values (6, '2015-09-01T16:34:02', 230000, 120, 'airline system');\par
+insert into price_capacity values (7, '2015-09-01T16:34:02', 220000, 20, 'airline system');\par
+insert into price_capacity values (8, '2015-09-01T16:34:02', 600000, 20, 'airline system');\par
+insert into price_capacity values (9, '2015-09-01T16:34:02', 700000, 30, 'airline system');\par
+insert into price_capacity values (10,'2015-09-01T16:34:02', 250000, 20, 'airline system');\par
+insert into price_capacity values (11,'2015-09-01T16:34:02', 260000, 60, 'airline system');\par
+insert into price_capacity values (12,'2015-09-01T16:34:02', 290000, 20, 'airline system');\par
+insert into price_capacity values (13,'2015-09-01T16:34:02', 650000, 30, 'airline system');\par
+insert into price_capacity values (14,'2015-09-01T16:34:02', 200000, 20, 'airline system');\par
+insert into price_capacity values (15,'2015-09-01T16:34:02', 200000, 20, 'airline system');\par
+insert into price_capacity values (16,'2015-09-01T16:34:02', 200000, 20, 'airline system');\par
+insert into price_capacity values (17,'2015-09-01T16:34:02', 200000, 20, 'airline system');\par
+\par
+
+\pard\par
+\par
+\par
+\par
+\par
+---- Q4-B\par
+\par
+\par
+
+\pard create view inter_State_flight_count as(\par
+    select ststate.name as "Origin State", enstate.name as "Destination State", flight.start_date, count(*) as "Number of flight"\par
+    from flight\par
+    inner join airport stairport on stairport.id = flight.start_airport_id\par
+    inner join airport enairport on enairport.id = flight.end_airport_id\par
+    inner join city stcity on stcity.id = stairport.city_id\par
+    inner join city encity on encity.id = enairport.city_id\par
+    inner join state ststate on ststate.id = stcity.state_id\par
+    inner join state enstate on enstate.id = encity.state_id\par
+    group by "Origin State", "Destination State", flight.start_date\par
+);\par
+\par
+select * from inter_State_flight_count\par
+
+\pard\par
+\par
+\par
+\par
+---- Q4-C\par
+\par
+\par
+
+\pard create view last_price_capacity as (\par
+    WITH flight_date as (\par
+        select flight_id, max(date) as date\par
+        from price_capacity\par
+        group by flight_id\par
+    )\par
+    \par
+    select flight.id, price_capacity.date, price_capacity.price, flight.last_price, price_capacity.capacity, flight.last_capacity, price_capacity.channel\par
+    from price_capacity\par
+    inner join flight_date on price_capacity.flight_id = flight_date.flight_id AND price_capacity.date = flight_date.date\par
+    inner join flight on price_capacity.flight_id = flight.id\par
+);\par
+\par
+select * from last_price_capacity;\par
+\par
+create view conflict_price as (\par
+    select * from last_price_capacity where price <> last_price\par
+);\par
+\par
+select * from conflict_price;\par
+
+\pard\par
+\par
+\par
+\par
+---- Q4-D\par
+\par
+\par
+
+\pard create view org_airport as(\par
+    WITH airport_list(id, name, lat, lan, city_id, city_name) as(\par
+        select airport.id, airport.name, airport.lat, airport.lan, airport.city_id, city.name as city_name\par
+        from airport\par
+        inner join city on city.id = airport.city_id\par
+        where airport.id IN(\par
+            select distinct(flight.start_airport_id) from flight\par
+        )\par
+    ), city_count as(\par
+        select city_name, city_id, count(*) as no from airport_list group by city_name, city_id\par
+    )\par
+    \par
+    -- one air port\par
+    select airport_list.id, airport_list.name, airport_list.lat, airport_list.lan, (NULL) as city_id , (NULL) as city_name\par
+    from airport_list\par
+    inner join city_count on city_count.city_id = airport_list.city_id\par
+    where city_count.no = 1\par
+    UNION\par
+    select airport_list.id, airport_list.name, airport_list.lat, airport_list.lan, airport_list.city_id, airport_list.city_name\par
+    from airport_list\par
+    inner join city_count on city_count.city_id = airport_list.city_id\par
+    where city_count.no > 1\par
+);\par
+select * from org_airport\par
+\par
+
+\pard\par
+\par
+\par
+\par
+---- Q4-E\par
+\par
+\par
+
+\pard create table backup_flight(\par
+    id int not null,\par
+    start_date date not null,\par
+    start_airport_id varchar(3) not null references airport(id),\par
+    end_airport_id varchar(3) not null references airport(id),\par
+    start_hour time,\par
+    airline_id varchar(2) not null references airline(id),\par
+    flight_number int,\par
+    last_price int check(last_price > 0),\par
+    last_capacity int check (last_capacity > 0),\par
+    modified timestamp not null,\par
+    primary key(id, modified)\par
+);\par
+\par
+CREATE OR REPLACE FUNCTION log_last_flight()\par
+  RETURNS trigger AS\par
+$BODY$\par
+BEGIN\par
+ IF NEW <> OLD THEN\par
+ INSERT INTO backup_flight\par
+ VALUES(OLD.id,OLD.start_date, OLD.start_airport_id, OLD.end_airport_id, OLD.start_hour, OLD.airline_id, OLD.flight_number, OLD.last_price, OLD.last_capacity ,now());\par
+ END IF;\par
+ \par
+ RETURN NEW;\par
+END;\par
+$BODY$\par
+\par
+LANGUAGE plpgsql VOLATILE\par
+COST 100;\par
+\par
+CREATE TRIGGER backup_flight_trigger BEFORE UPDATE ON flight\par
+FOR EACH ROW EXECUTE PROCEDURE log_last_flight();\par
+\par
+\par
+
+\pard\par
+\par
+\par
+\par
+---- Q4-F\par
+\par
+\par
+\par
+
+\pard CREATE OR REPLACE PROCEDURE update_flight_price()\par
+  RETURNS trigger AS\par
+BEGIN\par
+ \par
+ UPDATE flight set\par
+    last_price = NEW.price,\par
+    last_capacity = NEW.capacity\par
+ where id = NEW.flight_id ;\par
+ RETURN NEW;\par
+END;\par
+$BODY$\par
+\par
+LANGUAGE plpgsql VOLATILE\par
+COST 100;\par
+\par
+CREATE TRIGGER update_flight_trigger AFTER INSERT ON price_capacity\par
+FOR EACH ROW EXECUTE PROCEDURE update_flight_price();\par
+
+\pard\par
+\par
+\par
+---- Q4-G\par
+\par
+\par
+
+\pard BEGIN;\par
+UPDATE flight set\par
+last_price = 200000,\par
+last_capacity = 20\par
+where id = 1 ;\par
+insert into price_capacity values (1, '2020-09-01T16:34:02', 200000, 20, 'airline system');\par
+END;\par
+
+\pard\par
+\par
+\par
+\par
+---- Q4-H\par
+\par
+\par
+
+\pard CREATE FUNCTION check_flight_is_done(integer) RETURNS BOOLEAN AS $$\par
+    select CAST(flight.start_date + flight.start_hour AS timestamp) < now() from flight where flight.id = $1\par
+$$ LANGUAGE SQL;\par
+\par
+create table flight_history(\par
+    id int primary key not null,\par
+    start_date date not null,\par
+    start_airport_id varchar(3) not null references airport(id),\par
+    end_airport_id varchar(3) not null references airport(id),\par
+    start_hour time,\par
+    airline_id varchar(2) not null references airline(id),\par
+    flight_number int\par
+);\par
+\par
+CREATE OR REPLACE FUNCTION remove_flight() RETURNS void AS\par
+$BODY$\par
+    BEGIN\par
+    insert into flight_history\par
+        select id,start_date,start_airport_id,end_airport_id,start_hour,airline_id,flight_number from flight where check_flight_is_done(flight.id) = true;\par
+        \par
+    delete from price_capacity where check_flight_is_done(price_capacity.flight_id) = true; \par
+    delete from flight where check_flight_is_done(flight.id) = true;\par
+    \par
+    END;\par
+$BODY$\par
+\par
+LANGUAGE plpgsql VOLATILE\par
+COST 100;\par
+\par
+\par
+\par
+
+\pard\par
+\par
+\par
+\par
+---- Q4-I\par
+\par
+
+\pard CREATE ROLE operator;\par
+GRANT UPDATE ON flight TO operator;\par
+GRANT INSERT ON flight TO operator;\par
+GRANT DELETE ON flight TO operator;\par
+GRANT SELECT ON flight TO operator;\par
+GRANT UPDATE ON price_capacity TO operator;\par
+GRANT INSERT ON price_capacity TO operator;\par
+GRANT DELETE ON price_capacity TO operator;\par
+GRANT SELECT ON price_capacity TO operator;\par
+GRANT UPDATE ON passenger TO operator;\par
+GRANT INSERT ON passenger TO operator;\par
+GRANT DELETE ON passenger TO operator;\par
+GRANT SELECT ON passenger TO operator;\par
+GRANT UPDATE ON ticket TO operator;\par
+GRANT INSERT ON ticket TO operator;\par
+GRANT DELETE ON ticket TO operator;\par
+GRANT SELECT ON ticket TO operator;\par
+GRANT SELECT ON inter_State_flight_count TO operator;\par
+GRANT SELECT ON last_price_capacity TO operator;\par
+GRANT SELECT ON conflict_price TO operator;\par
+GRANT SELECT ON org_airport TO operator;\par
+GRANT SELECT ON backup_flight TO operator;\par
+GRANT SELECT ON flight_history TO operator;\par
+
+\pard\par
+\par
+\par
+\par
+---- Q5\par
+\par
+\par
+CREATE OR REPLACE RECURSIVE VIEW FACT(C1, C2) AS(\par
+    values(1, 1)\par
+    UNION\par
+    SELECT C1 + 1, C2 * (C1 + 1) FROM FACT WHERE C1 < 34\par
+    \par
+);\par
+\par
+SELECT C2 FROM FACT;\par
+\par
+---- Q7-A\par
+\par
+\par
+CREATE MATERIALIZED VIEW sales_per_category_and_store AS(\par
+SELECT SUM(amount), category.name, store.store_id\par
+FROM rental\par
+INNER JOIN payment ON payment.rental_id = rental.rental_id\par
+INNER JOIN inventory ON rental.inventory_id = inventory.inventory_id\par
+INNER JOIN store ON store.store_id = inventory.store_id\par
+INNER JOIN film ON film.film_id = inventory.film_id\par
+INNER JOIN film_category ON film_category.film_id = film.film_id\par
+INNER JOIN category ON film_category.category_id = category.category_id\par
+GROUP BY category.name, store.store_id\par
+ORDER BY store.store_id, category.name);\par
+\par
+\par
+UPDATE MATERIALIZED VIEW sales_per_category_and_store;\par
+DROP MATERIALIZED VIEW sales_per_category_and_store;\par
+\par
+\par
+---- Q7-B\par
+\par
+\par
+\par
+CREATE VIEW film_tmp AS(\par
+SELECT * FROM film\par
+WHERE language_id = '1'\par
+)\par
+WITH CHECK OPTION\par
+\par
+UPDATE film_tmp\par
+SET rental_duration = rental_duration - 1 \par
+\par
+SELECT * FROM film\par
+ \par
+\par
+---- Q7-C\par
+\par
+CREATE ROLE employee\par
+GRANT SELECT ON inventory TO emplyee\par
+GRANT SELECT ON rental TO emplyee\par
+\par
+CREATE ROLE manager\par
+GRANT employee TO manager\par
+ \par
+GRANT DELETE, UPDATE, INSERT ON rental TO manager\par
+GRANT DELETE, UPDATE, INSERT ON inventory TO manager\par
+GRANT DELETE, UPDATE, INSERT, SELECT ON staff TO manager\par
+\par
+---- Q5 - b\par
+\par
+\par
+ SELECT st.staff_id, ss.first_name, ss.last_name \par
+ FROM staff st  \par
+ INNER JOIN rental rt USING (staff_id)  \par
+ INNER JOIN (\tab SELECT cu.customer_id cid, cu.first_name, Cu.last_name ,ci.city , co.country \par
+    \tab\tab\tab FROM customer cu  INNER JOIN address USING (address_id)  INNER JOIN city ci USING (city_id) \par
+ \tab\tab\tab\tab INNER JOIN country co ON co.country_id = ci.country_id \par
+\tab\tab\tab\tab WHERE co.country = 'Italy') AS ss \par
+ON ss.cid = rt.customer_id; \par
+\par
+--------------------------\par
+\par
+SELECT st.staff_id, customer.first_name, customer.last_name\par
+FROM staff st\par
+INNER JOIN rental rt USING (staff_id)\par
+INNER JOIN customer on customer.customer_id = rt.customer_id\par
+INNER JOIN address on customer.address_id = address.address_id\par
+INNER JOIN city on address.city_id = city.city_id\par
+INNER JOIN country co ON co.country_id = city.country_id\par
+WHERE co.country = 'Italy'\par
+\par
+\par
+}
+ 
