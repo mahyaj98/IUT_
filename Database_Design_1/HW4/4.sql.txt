@@ -1,0 +1,114 @@
+
+CREATE TABLE public.City (
+                city_id VARCHAR NOT NULL,
+                city_name VARCHAR NOT NULL,
+                price_per_kilo REAL NOT NULL,
+                CONSTRAINT city_pk PRIMARY KEY (city_id)
+);
+
+
+CREATE TABLE public.Passenger (
+                user_phone VARCHAR NOT NULL,
+                Name VARCHAR NOT NULL,
+                CONSTRAINT passenger_pk PRIMARY KEY (user_phone)
+);
+
+
+CREATE TABLE public.Driver (
+                driver_phone VARCHAR NOT NULL,
+                car_mode VARCHAR NOT NULL,
+                is_active BIT NOT NULL,
+                CONSTRAINT driver_pk PRIMARY KEY (driver_phone)
+);
+
+
+CREATE TABLE public.Travel (
+                travel_id VARCHAR NOT NULL,
+                user_phone VARCHAR NOT NULL,
+                user_cm VARCHAR NOT NULL,
+                driver_raring INTEGER NOT NULL,
+                driver_cm VARCHAR NOT NULL,
+                driver_phone VARCHAR NOT NULL,
+                price INTEGER NOT NULL,
+                city_id VARCHAR NOT NULL,
+                user_rating INTEGER NOT NULL,
+                CONSTRAINT travel_pk PRIMARY KEY (travel_id)
+);
+
+
+CREATE TABLE public.Destinations (
+                dest_id VARCHAR NOT NULL,
+                travel_id_de VARCHAR NOT NULL,
+                start_lat REAL NOT NULL,
+                start_lon REAL NOT NULL,
+                CONSTRAINT destinations_pk PRIMARY KEY (dest_id, travel_id_de)
+);
+
+
+CREATE TABLE public.Discount (
+                dis_name VARCHAR NOT NULL,
+                travel_id_d VARCHAR NOT NULL,
+                expire_date DATE NOT NULL,
+                amount_percent REAL NOT NULL,
+                amount_or_percent BIT NOT NULL,
+                CONSTRAINT discount_pk PRIMARY KEY (dis_name, travel_id_d)
+);
+
+
+CREATE TABLE public.Path (
+                path_id VARCHAR NOT NULL,
+                travel_id_p VARCHAR NOT NULL,
+                start_lat REAL NOT NULL,
+                start_lon REAL NOT NULL,
+                end_lon REAL NOT NULL,
+                end_lat REAL NOT NULL,
+                waited_minutes INTEGER NOT NULL,
+                CONSTRAINT path_id PRIMARY KEY (path_id, travel_id_p)
+);
+COMMENT ON TABLE public.Path IS 'start_lat
+start_lon
+start_datetime
+';
+
+
+ALTER TABLE public.Travel ADD CONSTRAINT city_travel_fk
+FOREIGN KEY (city_id)
+REFERENCES public.City (city_id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.Travel ADD CONSTRAINT user_travel_fk
+FOREIGN KEY (user_phone)
+REFERENCES public.Passenger (user_phone)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.Travel ADD CONSTRAINT driver_travel_fk
+FOREIGN KEY (driver_phone)
+REFERENCES public.Driver (driver_phone)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.Path ADD CONSTRAINT travel_path_fk
+FOREIGN KEY (travel_id_p)
+REFERENCES public.Travel (travel_id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.Discount ADD CONSTRAINT travel_discount_fk
+FOREIGN KEY (travel_id_d)
+REFERENCES public.Travel (travel_id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.Destinations ADD CONSTRAINT travel_destinations_fk
+FOREIGN KEY (travel_id_de)
+REFERENCES public.Travel (travel_id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
